@@ -1,0 +1,40 @@
+{
+	"sites" : [{
+			"id" : "52b331da498e25c00246191c",
+			"name" : "wolfman12",
+			"owner" : "qwerty",
+			"status" : "active",
+			"location" : {
+				"lat" : -26.10521111,
+				"lng" : 27.86582222
+			}
+		}, {
+			"id" : "53ea6a1b498eb1c0147ecc83",
+			"name" : "LlewellynRB1",
+			"owner" : "xcgdgd",
+			"status" : "active",
+			"location" : {
+				"lat" : -26.17123611,
+				"lng" : 27.94904166
+			}
+		}, {
+			"id" : "51001923e4b0176c76613862",
+			"name" : "cAtilre",
+			"owner" : "ljklljlj",
+			"status" : "lost",
+			"location" : {
+				"lat" : -26.077959,
+				"lng" : 27.929032
+			}
+		}, {
+			"id" : "53de8662498ec77445dc4794",
+			"name" : "BP_Sec1",
+			"owner" : "cbcvbcbcbcvvbcc",
+			"status" : "down",
+			"location" : {
+				"lat" : -26.05257,
+				"lng" : 28.004126
+			}
+		}
+	]
+}
