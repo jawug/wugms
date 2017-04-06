@@ -1,0 +1,2 @@
+# wugms
+WUG Management System
