@@ -26,11 +26,14 @@
     <property name="phploc"  value="${basedir}/vendor/bin/phploc"/>
     <property name="phpmd"   value="${basedir}/vendor/bin/phpmd"/>
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/> -->
-
+    <!--
+        <target name="full-build"
+                depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
+                description="Performs static analysis, runs the tests, and generates project documentation"/>
+    -->
     <target name="full-build"
-            depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
+            depends="prepare,phpunit,-check-failure"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
-
 			
     <target name="full-build-parallel"
             depends="prepare,static-analysis-parallel,phpunit,phpdox,-check-failure"
@@ -161,11 +164,6 @@
             depends="prepare"
             description="Perform project mess detection using PHPMD and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="/usr/local/bin/phpmd" taskname="phpmd">
-            <!--            <arg path="${basedir}/src" />
-            <arg value="xml" />
-            <arg path="${basedir}/build/phpmd.xml" />
-            <arg value="- -reportfile" />
-            <arg path="${basedir}/build/logs/pmd.xml" /> -->
             <arg path="${basedir}/src" />
             <arg value="xml" />         
             <arg value="codesize,unusedcode,naming,design" />
@@ -209,7 +207,6 @@
     <target name="phpcpd"
             unless="phpcpd.done"
             description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
-        <!--		<exec executable="${phpcpd}" taskname="phpcpd"> -->
         <exec executable="/usr/local/bin/phpcpd" taskname="phpcpd">
             <arg path="${basedir}/src" />
         </exec>
@@ -221,7 +218,6 @@
             unless="phpcpd.done"
             depends="prepare"
             description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
-        <!--		<exec executable="${phpcpd}" taskname="phpcpd"> -->
         <exec executable="/usr/local/bin/phpcpd" taskname="phpcpd">
             <arg value="--log-pmd" />
             <arg path="${basedir}/build/logs/pmd-cpd.xml" />
@@ -235,7 +231,6 @@
             unless="phpunit.done"
             depends="prepare"
             description="Run unit tests with PHPUnit">
-        <!--        <exec executable="${phpunit}" resultproperty="result.phpunit" taskname="phpunit"> -->
         <exec executable="/usr/local/bin/phpunit" resultproperty="result.phpunit" taskname="phpunit">
             <arg value="--configuration"/>
             <arg path="${basedir}/phpunit.xml"/>
