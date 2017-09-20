@@ -1,0 +1,39 @@
+{
+    "SITE": {
+        "external_address": "wugmsdev.bwcsystem.co.za",
+        "internal_address": "wugms.jawug",
+        "site_title": "DEV - WUGMS",
+        "app_name": "WUGMS-DEV",
+        "footer_text": "JAWUG - WUGMS",
+        "remote_site": true,
+        "site_admin_email": "admin@wugms.jawug.org.za",
+        "description": "Wireless UserGroup Managed Service.",
+        "abstract": "Building wifi sites one at a time",
+        "allow_smtp": false
+    },
+    "voDAO": {
+        "username": "rbcpapp",
+        "password": "rbcpapp",
+        "schema": "wugms",
+        "host": "192.168.72.40",
+        "port": 3306
+    },
+    "AUDIT": {
+        "host": "127.0.0.1",
+        "port": 80
+    },    
+    "voSMTP": {
+        "smtphost": "smtp.jawug.co.za",
+        "smtpport": 587,
+        "smtpsecure": "tls",
+        "smtpauth": true,
+        "smtpusername": "noreply@jawug.co.za",
+        "smtppassword": "password",
+        "noreplyaddress": "noreply@jawug.co.za",
+        "noreplyname": "WUGMS-NoReply"
+    },
+    "MiscVO": {
+        "php_min": "5.6.15",
+        "php_max": "7.3.0"
+    }
+}
