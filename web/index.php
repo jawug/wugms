@@ -1,11 +1,11 @@
 <?php
-
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 $ServerArray = filter_input_array(INPUT_SERVER);
-/* This is required for classes */
-require(realpath($ServerArray['DOCUMENT_ROOT'] . '/../lib') . '/bwcfw.classes.php');
-
-$PageEntity = new LoggingService(__FILE__);
+require_once($ServerArray['DOCUMENT_ROOT'] . '/../src/bwcfw.classes.php');
+$page_data = new PageLoggingService(__FILE__, false);
+$page_data->PageData->setRoleRequired("user");
 
 #Header section
 include 'header_section.php';
@@ -15,4 +15,4 @@ include 'menu_main.php';
 include 'main_section.php';
 #footer
 include 'footer_section.php';
-?>
+

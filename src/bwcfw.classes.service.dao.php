@@ -1,90 +1,151 @@
 <?php
 
-class DAO_Service {
+class serviceDAO extends LoggingService
+{
 
     /**
      *
      * @var \PDO This the main DAO object 
      */
-    var $DAO_Service;
+    var $serviceDAO;
 
     /**
      *
-     * @var \StatusVO 
+     * @var \voStatus 
      */
-    var $DAO_status;
+    var $classStatus;
 
     /**
      *
-     * @var \DBVO 
+     * @var \voDAO 
      */
-    private $DAO_Config;
+    private $configDAO;
+
+    /**
+     *
+     * @var string 
+     */
+    private $serverdatetime = "";
+
+    /**
+     *
+     * @var boolean 
+     */
+    private $daostatus = false;
+
+    /**
+     * 
+     * @return string
+     */
+    function getServerDateTime()
+    {
+        return $this->serverdatetime;
+    }
+
+    /**
+     * 
+     * @param string $serverdatetime
+     */
+    private function setServerDateTime($serverdatetime)
+    {
+        $this->serverdatetime = $serverdatetime;
+    }
+
+    function getDAOStatus()
+    {
+        return $this->daostatus;
+    }
+
+    /**
+     * 
+     * @param string $daostatus
+     */
+    private function setDAOStatus($daostatus)
+    {
+        $this->daostatus = $daostatus;
+    }
 
     /**
      *
      * @var string This is the schema name that was used when we connected to the DB 
      */
-    var $DAO_Schema;
+    private $DAO_Schema;
 
-    function checkDAO() {
-        $datetime = "";
+    function getDAOSchema()
+    {
+        return $this->DAO_Schema;
+    }
+
+    /**
+     * 
+     * @param string $DAO_Schema
+     */
+    private function setDAOSchema($DAO_Schema)
+    {
+        $this->daostatus = $DAO_Schema;
+    }
+
+    function checkDAO()
+    {
         $dao_test_connection_query = "SELECT now() as value from dual where 1 = :id";
         $dao_test_connection_query_params = array(
             ':id' => 1
         );
-        $status = $this->DAO_Service->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+        $status = $this->serviceDAO->getAttribute(PDO::ATTR_CONNECTION_STATUS);
         /* SQL - Exec */
         try {
-            $dao_test_connection_stmt = $this->DAO_Service->prepare($dao_test_connection_query);
+            $dao_test_connection_stmt = $this->serviceDAO->prepare($dao_test_connection_query);
             $dao_test_connection_stmt->execute($dao_test_connection_query_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
-            $this->DAO_status->setStatus(false);
-            $this->DAO_status->setStatusCode("dao_test_connection_stmt");
-            $this->DAO_status->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
-            $this->DAO_status->setLine($ex->getLine());
+            $this->classStatus->setStatus(false);
+            $this->classStatus->setStatusCode("dao_test_connection_stmt");
+            $this->classStatus->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
+            $this->classStatus->setLine($ex->getLine());
+            $this->LogBasicEntry(3, get_class($this->serviceDAO), $this->classStatus->getStatusStr(), $this->classStatus->getStatusCode(), $this->classStatus->getExtendedStatusCode(), $this->classStatus->getLine());
         }
-        if ($this->DAO_status->getStatus()) {
+        if ($this->classStatus->getStatus()) {
             $dao_test_connection_row = $dao_test_connection_stmt->fetch();
             if ($dao_test_connection_row) {
-                $datetime = $dao_test_connection_row["value"];
+                $this->setServerDateTime($dao_test_connection_row["value"]);
             }
         }
-        $results = array("rstatus" => $this->DAO_status, "status" => $status, "datetime" => $datetime, "dbvo" => $this->DAO_Config);
+        $results = array("rstatus" => $this->classStatus, "status" => $status, "datetime" => $this->datetime, "voDAO" => $this->configDAO);
         return $results;
     }
 
     /**
      * 
-     * @return \StatusVO
+     * @return \voStatus
      */
-    function initDAO() {
+    function initDAO()
+    {
         try {
-            $this->DAO_Service = new PDO("mysql:host={$this->DAO_Config->getHost()};dbname={$this->DAO_Config->getDataBase()};charset={$this->DAO_Config->getCharset()}", $this->DAO_Config->getUserName(), $this->DAO_Config->getPassword(), $this->DAO_Config->getDataBaseOptions());
+            $this->serviceDAO = new PDO("mysql:host={$this->configDAO->getHost()};dbname={$this->configDAO->getDataBase()};charset={$this->configDAO->getCharset()}", $this->configDAO->getUserName(), $this->configDAO->getPassword(), $this->configDAO->getDataBaseOptions());
         } catch (PDOException $ex) {
-            $this->DAO_status->setStatus(FALSE);
-            $this->DAO_status->setStatusCode("init DAO");
-            $this->DAO_status->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
-            $this->DAO_status->setLine($ex->getLine());
+            $this->classStatus->setStatus(false);
+            $this->classStatus->setStatusCode("init DAO");
+            $this->classStatus->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
+            $this->classStatus->setLine($ex->getLine());
+            $this->LogBasicEntry(3, get_class($this->serviceDAO), $this->classStatus->getStatusStr(), $this->classStatus->getStatusCode(), $this->classStatus->getExtendedStatusCode(), $this->classStatus->getLine());
         }
-        if ($this->DAO_status->getStatus()) {
-            $this->DAO_Service->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->DAO_Service->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            $this->DAO_Schema = $this->DAO_Config->getDatabase();
+        if ($this->classStatus->getStatus()) {
+            $this->serviceDAO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->serviceDAO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $this->setDAOSchema($this->configDAO->getDatabase());
+            $this->LogBasicEntry(2, get_class($this->serviceDAO), $this->classStatus->getStatusStr(), $this->classStatus->getStatusCode(), $this->classStatus->getExtendedStatusCode(), $this->classStatus->getLine());
         }
-        return $this->DAO_status;
+        $this->setDAOStatus($this->classStatus->getStatus());
+//        return $this->classStatus;
     }
 
-    function __construct($init = TRUE) {
-//        $this->start = microtime(true);
-//echo "1";
-//echo PHP_EOL;
-        $this->DAO_Config = new DBVO();
-        $this->DAO_status = new StatusVO();
+    function __construct($init = true)
+    {
+        parent::__construct();
+        $this->configDAO = new voDAO();
+        $this->classStatus = new voStatus();
         if ($init) {
             $this->initDAO();
         }
-//        var_dump($this->DAO_status);
     }
-
 }

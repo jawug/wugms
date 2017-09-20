@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="wugms" default="full-build">
+<project name="goldeneye" default="full-build">
     <!-- By default, we assume all tools to be on the $PATH -->
     <property name="pdepend" value="pdepend"/> 
     <property name="phpcpd"  value="phpcpd"/>
@@ -26,11 +26,13 @@
     <property name="phploc"  value="${basedir}/vendor/bin/phploc"/>
     <property name="phpmd"   value="${basedir}/vendor/bin/phpmd"/>
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/> -->
+
     <target name="full-build"
             depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
-    <!-- for testing    
-        <target name="full-build"
+
+    <!--    
+    <target name="full-build"
                 depends="prepare,phpunit,-check-failure"
                 description="Performs static analysis, runs the tests, and generates project documentation"/>
     -->
@@ -95,7 +97,7 @@
                 <modified />
             </fileset>
 
-            <fileset dir="${basedir}/tests">
+            <fileset dir="${basedir}/web">
                 <include name="**/*.php" />
                 <modified />
             </fileset>
@@ -110,7 +112,7 @@
         <exec executable="/usr/local/bin/phploc" taskname="phploc">
             <arg value="--count-tests" />
             <arg path="${basedir}/src" />
-            <arg path="${basedir}/tests" />
+            <arg path="${basedir}/web" />
         </exec>
 
         <property name="phploc.done" value="true"/>
@@ -127,7 +129,7 @@
             <arg value="--log-xml" />
             <arg path="${basedir}/build/logs/phploc.xml" />
             <arg path="${basedir}/src" />
-            <arg path="${basedir}/tests" />
+            <arg path="${basedir}/web" />
         </exec>
 
         <property name="phploc.done" value="true"/>
@@ -176,11 +178,11 @@
             unless="phpcs.done"
             description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
         <exec executable="${phpcs}" taskname="phpcs">
-            <arg value="--standard=PSR2" />
+            <arg value="--standard=${basedir}/ruleset.xml" />
             <arg value="--extensions=php" />
             <arg value="--ignore=autoload.php" />
             <arg path="${basedir}/src" />
-            <arg path="${basedir}/tests" />
+            <arg path="${basedir}/web" />
         </exec>
 
         <property name="phpcs.done" value="true"/>
@@ -193,11 +195,11 @@
         <exec executable="${phpcs}" output="/dev/null" taskname="phpcs">
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-            <arg value="--standard=PSR2" />
+            <arg value="--standard=${basedir}/ruleset.xml" />
             <arg value="--extensions=php" />
             <arg value="--ignore=autoload.php" />
             <arg path="${basedir}/src" />
-            <arg path="${basedir}/tests" />
+            <arg path="${basedir}/web" />
         </exec>
 
         <property name="phpcs.done" value="true"/>

@@ -1,16 +1,17 @@
 <?php
 
-class bwcfw_util {
+class bwcfw_util
+{
 
     /**
      *
-     * @var \DAO_Service
+     * @var \serviceDAO
      */
     private $DAO;
 
     /**
      *
-     * @var \bwcfwDecoratorPattern 
+     * @var \entityConfiguration 
      */
     private $DP;
 
@@ -42,7 +43,8 @@ class bwcfw_util {
      * 
      * @return datetime
      */
-    function getRDate() {
+    function getRDate()
+    {
         return $this->rdate;
     }
 
@@ -50,37 +52,41 @@ class bwcfw_util {
      * 
      * @return datetime
      */
-    function getPDate() {
+    function getPDate()
+    {
         return $this->pdate;
     }
 
     /**
      * 
      */
-    private function setProcessingDates() {
+    private function setProcessingDates()
+    {
         $d = new DateTime();
         $e = (new \DateTime())->modify('-1 hour');
         $this->rdate = $d->format('Y-m-d H:00:00');
         $this->pdate = $e->format('Y-m-d H:00:00');
     }
 
-    function checkMySQL() {
+    function checkMySQL()
+    {
         $attributes = array(
             "AUTOCOMMIT", "ERRMODE", "CASE", "CLIENT_VERSION", "CONNECTION_STATUS",
-            "ORACLE_NULLS", "PERSISTENT", "SERVER_INFO", "SERVER_VERSION");
+            "ORACLE_nullS", "PERSISTENT", "SERVER_INFO", "SERVER_VERSION");
 
         foreach ($attributes as $val) {
-            $checkMySQL["$val"] = $this->DAO->DAO_Service->getAttribute(constant("PDO::ATTR_$val"));
+            $checkMySQL["$val"] = $this->DAO->serviceDAO->getAttribute(constant("PDO::ATTR_$val"));
         }
         return $checkMySQL;
     }
 
-    function checkMySQLTables() {
+    function checkMySQLTables()
+    {
         /* SQL - Query */
         $bwcfw_show_table_status_query = "SHOW TABLE STATUS;";
         /* SQL - Exec */
         try {
-            $bwcfw_show_table_status_stmt = $this->DAO->DAO_Service->prepare($bwcfw_show_table_status_query);
+            $bwcfw_show_table_status_stmt = $this->DAO->serviceDAO->prepare($bwcfw_show_table_status_query);
             $bwcfw_show_table_status_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -96,19 +102,20 @@ class bwcfw_util {
         }
     }
 
-    function checkPageHits() {
+    function checkPageHits()
+    {
         /* SQL - Query */
         $bwcfw_page_hits_last_day_query = "
             SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date,
             a.page,
             count(*) AS hits
             FROM tbl_base_user_audit a
-            WHERE session_date > now() - INTERVAL 1 DAY AND a.page IS NOT NULL
+            WHERE session_date > now() - INTERVAL 1 DAY AND a.page IS NOT null
             GROUP BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page
             ORDER BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_hits_last_day_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_hits_last_day_query);
+            $bwcfw_page_hits_last_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_hits_last_day_query);
             $bwcfw_page_hits_last_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -125,12 +132,13 @@ class bwcfw_util {
         }
     }
 
-    function getPageHitsTop10CurrentHour($limit = 10) {
+    function getPageHitsTop10CurrentHour($limit = 10)
+    {
         /* SQL - Query */
-        $bwcfw_page_hits_top10_last_hour_query = "SELECT a.page, a.hits FROM (SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date, a.page, count(*) AS hits FROM tbl_base_user_audit a WHERE     session_date >= DATE_FORMAT(now(), '%Y-%m-%d %H:00:00') AND a.page IS NOT NULL GROUP BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page ORDER BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page) AS a ORDER BY a.hits DESC, a.page LIMIT :limit;";
+        $bwcfw_page_hits_top10_last_hour_query = "SELECT a.page, a.hits FROM (SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date, a.page, count(*) AS hits FROM tbl_base_user_audit a WHERE     session_date >= DATE_FORMAT(now(), '%Y-%m-%d %H:00:00') AND a.page IS NOT null GROUP BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page ORDER BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page) AS a ORDER BY a.hits DESC, a.page LIMIT :limit;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_hits_top10_last_hour_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_hits_top10_last_hour_query);
+            $bwcfw_page_hits_top10_last_hour_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_hits_top10_last_hour_query);
             $bwcfw_page_hits_top10_last_hour_stmt->bindValue(':limit', intval($limit), PDO::PARAM_INT);
             $bwcfw_page_hits_top10_last_hour_stmt->execute();
         } catch (PDOException $ex) {
@@ -154,27 +162,28 @@ class bwcfw_util {
         }
     }
 
-    function getPageHitsCurrentDay($limit = 25) {
+    function getPageHitsCurrentDay($limit = 25)
+    {
         /* SQL - Query */
-        $bwcfw_page_hits_top10_last_hour_query = "SELECT a.page, a.hits FROM (SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date, a.page, count(*) AS hits FROM tbl_base_user_audit a WHERE     session_date >= DATE_FORMAT(now()- interval 24 hour, '%Y-%m-%d %H:00:00') AND a.page IS NOT NULL GROUP BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page ORDER BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page) AS a ORDER BY a.hits DESC, a.page LIMIT :limit;";
+        $bwcfw_page_hits_current_day_query = "SELECT a.page, a.hits FROM (SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date, a.page, count(*) AS hits FROM tbl_base_user_audit a WHERE     session_date >= DATE_FORMAT(now()- interval 24 hour, '%Y-%m-%d %H:00:00') AND a.page IS NOT null GROUP BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page ORDER BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.page) AS a ORDER BY a.hits DESC, a.page LIMIT :limit;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_hits_top10_last_hour_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_hits_top10_last_hour_query);
-            $bwcfw_page_hits_top10_last_hour_stmt->bindValue(':limit', intval($limit), PDO::PARAM_INT);
-            $bwcfw_page_hits_top10_last_hour_stmt->execute();
+            $bwcfw_page_hits_current_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_hits_current_day_query);
+            $bwcfw_page_hits_current_day_stmt->bindValue(':limit', intval($limit), PDO::PARAM_INT);
+            $bwcfw_page_hits_current_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
-            $this->class_data->PageActions->setStatus(FALSE);
-            $this->class_data->PageActions->setStatusCode("bwcfw_page_hits_top10_last_hour_stmt");
+            $this->class_data->PageActions->setStatus(false);
+            $this->class_data->PageActions->setStatusCode("bwcfw_page_hits_current_day_stmt");
             $this->class_data->PageActions->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
             $this->class_data->PageActions->setLine($ex->getLine());
             $this->class_data->LogEntry(3);
         }
         /* SQL - Result Handling */
-        $bwcfw_page_hits_top10_last_hour_row = $bwcfw_page_hits_top10_last_hour_stmt->fetchAll();
-        if ($bwcfw_page_hits_top10_last_hour_row) {
+        $bwcfw_page_hits_current_day_row = $bwcfw_page_hits_current_day_stmt->fetchAll();
+        if ($bwcfw_page_hits_current_day_row) {
             $rows = array();
-            foreach ($bwcfw_page_hits_top10_last_hour_row as $x) {
+            foreach ($bwcfw_page_hits_current_day_row as $x) {
                 $row[0] = $x['page'];
                 $row[1] = $x['hits'];
                 array_push($rows, $row);
@@ -183,7 +192,8 @@ class bwcfw_util {
         }
     }
 
-    function getStatusRollingWindowData($area, $param, $interval_length = 24) {
+    function getStatusRollingWindowData($area, $param, $interval_length = 24)
+    {
         switch ($area) {
             /* New entries */
             case 'page_hits':
@@ -232,7 +242,7 @@ SELECT round(((UNIX_TIMESTAMP(x.td) + 7200) * 1000), 0) idate,
   FROM tbl_base_user_audit a
  WHERE     a.session_date >=
               DATE_FORMAT(now() - INTERVAL :interval_length HOUR, '%Y-%m-%d %H:00:00')
-       AND a.page IS NOT NULL
+       AND a.page IS NOT null
        AND upper(a.type) = :type
        AND upper(a.action) = :action
 GROUP BY api_date, a.type, a.action
@@ -278,12 +288,12 @@ ORDER BY x.td;";
 
             /* Default value */
             default:
-                $this->class_data->PageActions->setStatus(FALSE);
+                $this->class_data->PageActions->setStatus(false);
                 $this->class_data->PageActions->setStatusCode("Missing Parameter");
         }
         /* SQL - Exec */
         try {
-            $bwcfw_status_rolling_window_data_stmt = $this->DAO->DAO_Service->prepare($bwcfw_status_rolling_window_data_query);
+            $bwcfw_status_rolling_window_data_stmt = $this->DAO->serviceDAO->prepare($bwcfw_status_rolling_window_data_query);
             $bwcfw_status_rolling_window_data_stmt->execute($bwcfw_status_rolling_window_data_query_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -306,9 +316,10 @@ ORDER BY x.td;";
         }
     }
 
-    function getTypeAcionsCurrentDay() {
+    function getTypeAcionsCurrentDay()
+    {
         /* SQL - Query */
-        $bwcfw_page_hits_top10_last_hour_query = "SELECT concat(a.type,
+        $bwcfw_type_actions_current_day_query = "SELECT concat(a.type,
               '__',
               a.action)
           AS type_action,
@@ -318,27 +329,27 @@ ORDER BY x.td;";
          WHERE     session_date >=
                       DATE_FORMAT(now() - INTERVAL 24 HOUR,
                                   '%Y-%m-%d %H:00:00')
-               AND a.page IS NOT NULL
+               AND a.page IS NOT null
         GROUP BY a.type, a.action
         ORDER BY a.type, a.action) AS a
 ORDER BY a.hits DESC, a.action, a.type;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_hits_top10_last_hour_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_hits_top10_last_hour_query);
-            $bwcfw_page_hits_top10_last_hour_stmt->execute();
+            $bwcfw_type_actions_current_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_type_actions_current_day_query);
+            $bwcfw_type_actions_current_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
             $this->class_data->PageActions->setStatus(false);
-            $this->class_data->PageActions->setStatusCode("bwcfw_page_hits_top10_last_hour_stmt");
+            $this->class_data->PageActions->setStatusCode("bwcfw_type_actions_current_day_stmt");
             $this->class_data->PageActions->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
             $this->class_data->PageActions->setLine($ex->getLine());
             $this->class_data->LogEntry(3);
         }
         /* SQL - Result Handling */
-        $bwcfw_page_hits_top10_last_hour_row = $bwcfw_page_hits_top10_last_hour_stmt->fetchAll();
-        if ($bwcfw_page_hits_top10_last_hour_row) {
+        $bwcfw_type_actions_current_day_row = $bwcfw_type_actions_current_day_stmt->fetchAll();
+        if ($bwcfw_type_actions_current_day_row) {
             $rows = array();
-            foreach ($bwcfw_page_hits_top10_last_hour_row as $x) {
+            foreach ($bwcfw_type_actions_current_day_row as $x) {
                 $row[0] = $x['type_action'];
                 $row[1] = $x['hits'];
                 array_push($rows, $row);
@@ -347,9 +358,10 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function getUserAcionsCurrentDay() {
+    function getUserAcionsCurrentDay()
+    {
         /* SQL - Query */
-        $bwcfw_page_hits_top10_last_hour_query = "SELECT a.hits, b.name
+        $bwcfw_user_actions_current_day_query = "SELECT a.hits, b.name
   FROM (SELECT a.username_id, count(*) AS hits
           FROM tbl_base_user_audit a
          WHERE a.session_date >=
@@ -366,21 +378,21 @@ ORDER BY a.hits DESC, a.action, a.type;";
  WHERE a.username_id = b.id_user;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_hits_top10_last_hour_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_hits_top10_last_hour_query);
-            $bwcfw_page_hits_top10_last_hour_stmt->execute();
+            $bwcfw_user_actions_current_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_user_actions_current_day_query);
+            $bwcfw_user_actions_current_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
             $this->class_data->PageActions->setStatus(false);
-            $this->class_data->PageActions->setStatusCode("bwcfw_page_hits_top10_last_hour_stmt");
+            $this->class_data->PageActions->setStatusCode("bwcfw_user_actions_current_day_stmt");
             $this->class_data->PageActions->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
             $this->class_data->PageActions->setLine($ex->getLine());
             $this->class_data->LogEntry(3);
         }
         /* SQL - Result Handling */
-        $bwcfw_page_hits_top10_last_hour_row = $bwcfw_page_hits_top10_last_hour_stmt->fetchAll();
-        if ($bwcfw_page_hits_top10_last_hour_row) {
+        $bwcfw_user_actions_current_day_row = $bwcfw_user_actions_current_day_stmt->fetchAll();
+        if ($bwcfw_user_actions_current_day_row) {
             $rows = array();
-            foreach ($bwcfw_page_hits_top10_last_hour_row as $x) {
+            foreach ($bwcfw_user_actions_current_day_row as $x) {
                 $row[0] = $x['name'];
                 $row[1] = $x['hits'];
                 array_push($rows, $row);
@@ -389,7 +401,8 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function getPageErrorsCurrentHour() {
+    function getPageErrorsCurrentHour()
+    {
         /* SQL - Query */
         $bwcfw_page_action_type_last_day_query = "SELECT ifnull(x.items, 0) errors
   FROM (SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date,
@@ -399,7 +412,7 @@ ORDER BY a.hits DESC, a.action, a.type;";
                AND upper(a.status) <> 'OK') AS x;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_action_type_last_day_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_action_type_last_day_query);
+            $bwcfw_page_action_type_last_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_action_type_last_day_query);
             $bwcfw_page_action_type_last_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -416,7 +429,8 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function getPageErrorsCurrentDay() {
+    function getPageErrorsCurrentDay()
+    {
         /* SQL - Query */
         $bwcfw_page_action_type_last_day_query = "
             SELECT ifnull(min(y.items), 0) AS min_errors,
@@ -433,7 +447,7 @@ ORDER BY a.hits DESC, a.action, a.type;";
                            AS x) AS y;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_action_type_last_day_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_action_type_last_day_query);
+            $bwcfw_page_action_type_last_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_action_type_last_day_query);
             $bwcfw_page_action_type_last_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -450,19 +464,20 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function checkPageActionType() {
+    function checkPageActionType()
+    {
         /* SQL - Query */
         $bwcfw_page_action_type_last_day_query = "SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date,
                                                         a.type,
                                                         a.action,
                                                         count(*) AS type_action
                                                    FROM tbl_base_user_audit a
-                                                  WHERE session_date > now() - INTERVAL 1 DAY AND a.page IS NOT NULL
+                                                  WHERE session_date > now() - INTERVAL 1 DAY AND a.page IS NOT null
                                                  GROUP BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.type, a.action
                                                  ORDER BY DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00'), a.type, a.action;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_action_type_last_day_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_action_type_last_day_query);
+            $bwcfw_page_action_type_last_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_action_type_last_day_query);
             $bwcfw_page_action_type_last_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -479,10 +494,11 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function checkPageErrorsCurrentHour() {
+    function checkPageErrorsCurrentHour()
+    {
         /* SQL - Query */
 
-        $bwcfw_page_errors_last_day_query = "SELECT x.api_date, IFNULL(y.items, 0) AS errors
+        $bwcfw_page_errors_last_day_query = "SELECT x.api_date, IFnull(y.items, 0) AS errors
                                               FROM (SELECT DATE_FORMAT(a.session_date, '%Y-%m-%d %H:00:00') AS api_date
                                                       FROM tbl_base_user_audit a
                                                      WHERE a.session_date > now() - INTERVAL 1 DAY
@@ -500,7 +516,7 @@ ORDER BY a.hits DESC, a.action, a.type;";
                                                       ON x.api_date = y.api_date;";
         /* SQL - Exec */
         try {
-            $bwcfw_page_errors_last_day_stmt = $this->DAO->DAO_Service->prepare($bwcfw_page_errors_last_day_query);
+            $bwcfw_page_errors_last_day_stmt = $this->DAO->serviceDAO->prepare($bwcfw_page_errors_last_day_query);
             $bwcfw_page_errors_last_day_stmt->execute();
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -521,7 +537,8 @@ ORDER BY a.hits DESC, a.action, a.type;";
      * 
      * @return array Returns the min, max, current PHP version and status
      */
-    function checkPHP() {
+    function checkPHP()
+    {
         $PHPVersionStatus = 'Ok';
         if (version_compare(PHP_VERSION, $this->DP->getPHPMinVersion()) < 0) {
             $PHPVersionStatus = 'PHP version too old';
@@ -533,7 +550,8 @@ ORDER BY a.hits DESC, a.action, a.type;";
         return $checkPHP;
     }
 
-    function getDAOTableInformation() {
+    function getDAOTableInformation()
+    {
         /* SQL - Query */
         $bwcfw_dao_table_information_query = "
             SELECT table_name, engine, version AS engine_version, row_format, table_rows, avg_row_length, data_length, max_data_length, index_length, data_free, auto_increment, create_time, update_time, table_collation, (data_length + index_length) AS disk_size
@@ -546,7 +564,7 @@ ORDER BY a.hits DESC, a.action, a.type;";
         );
         /* SQL - Exec */
         try {
-            $bwcfw_dao_table_information_stmt = $this->DAO->DAO_Service->prepare($bwcfw_dao_table_information_query);
+            $bwcfw_dao_table_information_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_information_query);
             $bwcfw_dao_table_information_stmt->execute($bwcfw_dao_table_information_query_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -560,17 +578,12 @@ ORDER BY a.hits DESC, a.action, a.type;";
         $bwcfw_dao_table_information_row = $bwcfw_dao_table_information_stmt->fetchAll();
         if ($bwcfw_dao_table_information_row) {
             $this->DAOTableInformation = $bwcfw_dao_table_information_row;
-            /*            $rows = array();
-              foreach ($bwcfw_dao_table_information_row as $x) {
-              $row[0] = $x['name'];
-              $row[1] = $x['hits'];
-              array_push($rows, $row);
-              } */
             return $bwcfw_dao_table_information_row;
         }
     }
 
-    function getDAOTableStatsInformationDD() {
+    function getDAOTableStatsInformationDD()
+    {
         /* SQL - Query */
         $bwcfw_dao_table_stats_information_dd_query = "
             SELECT a.table_name, a.table_rows, a.data_length, a.index_length, a.disk_size
@@ -583,7 +596,7 @@ ORDER BY a.hits DESC, a.action, a.type;";
         );
         /* SQL - Exec */
         try {
-            $bwcfw_dao_table_stats_information_dd_stmt = $this->DAO->DAO_Service->prepare($bwcfw_dao_table_stats_information_dd_query);
+            $bwcfw_dao_table_stats_information_dd_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_stats_information_dd_query);
             $bwcfw_dao_table_stats_information_dd_stmt->execute($bwcfw_dao_table_stats_information_dd_query_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -600,7 +613,36 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function loadDAOTableInformation() {
+    function getDAOAuditTableInformation()
+    {
+        /* SQL - Query */
+        $bwcfw_dao_table_stats_information_dd_query = "SELECT session_date, username, username_id, session_id, user_ip, section, level, area, type, action, status, msg, browser_agent, page, extended_status, line, sid FROM tbl_base_user_audit;";
+        /* SQL - Params */
+        $bwcfw_dao_table_stats_information_dd_query_params = array(
+            ':table_schema' => strtoupper($this->DAO->DAO_Schema),
+            ':table_type' => strtoupper("base table")
+        );
+        /* SQL - Exec */
+        try {
+            $bwcfw_dao_table_stats_information_dd_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_stats_information_dd_query);
+            $bwcfw_dao_table_stats_information_dd_stmt->execute($bwcfw_dao_table_stats_information_dd_query_params);
+        } catch (PDOException $ex) {
+            /* SQL - Error Handling */
+            $this->class_data->PageActions->setStatus(false);
+            $this->class_data->PageActions->setStatusCode("bwcfw_dao_table_information_stmt");
+            $this->class_data->PageActions->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
+            $this->class_data->PageActions->setLine($ex->getLine());
+            $this->class_data->LogEntry(3);
+        }
+        /* SQL - Result Handling */
+        $bwcfw_dao_table_stats_information_dd_row = $bwcfw_dao_table_stats_information_dd_stmt->fetchAll();
+        if ($bwcfw_dao_table_stats_information_dd_row) {
+            return $bwcfw_dao_table_stats_information_dd_row;
+        }
+    }
+
+    function loadDAOTableInformation()
+    {
         foreach ($this->DAOTableInformation as $raw_data) {
             /* SQL - Query */
             $bwcfw_dao_table_information_query = "
@@ -628,7 +670,7 @@ ORDER BY a.hits DESC, a.action, a.type;";
             );
             /* SQL - Exec */
             try {
-                $bwcfw_dao_table_information_stmt = $this->DAO->DAO_Service->prepare($bwcfw_dao_table_information_query);
+                $bwcfw_dao_table_information_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_information_query);
                 $bwcfw_dao_table_information_stmt->execute($bwcfw_dao_table_information_query_params);
             } catch (PDOException $ex) {
                 /* SQL - Error Handling */
@@ -641,7 +683,8 @@ ORDER BY a.hits DESC, a.action, a.type;";
         }
     }
 
-    function loadDAOTableStats60() {
+    function loadDAOTableStats60()
+    {
         /* SQL - Query */
         $bwcfw_dao_table_stats_summary_60_query = "
 INSERT INTO tbl_base_table_stats_60(rdate,
@@ -658,15 +701,15 @@ INSERT INTO tbl_base_table_stats_60(rdate,
           d.disk_size
      FROM (SELECT x.rdate,
                   x.table_name,
-                  IF(y.table_rows IS NULL, 0, x.table_rows - y.table_rows)
+                  IF(y.table_rows IS null, 0, x.table_rows - y.table_rows)
                      AS table_rows,
-                  IF(y.data_length IS NULL, 0, x.data_length - y.data_length)
+                  IF(y.data_length IS null, 0, x.data_length - y.data_length)
                      AS data_length,
-                  IF(y.index_length IS NULL,
+                  IF(y.index_length IS null,
                      0,
                      x.index_length - y.index_length)
                      AS index_length,
-                  IF(y.disk_size IS NULL, 0, x.disk_size - y.disk_size)
+                  IF(y.disk_size IS null, 0, x.disk_size - y.disk_size)
                      AS disk_size
              FROM (SELECT a.rdate,
                           a.table_name,
@@ -696,7 +739,7 @@ ON DUPLICATE KEY UPDATE table_rows = d.table_rows,
         );
         /* SQL - Exec */
         try {
-            $bwcfw_dao_table_stats_summary_60_stmt = $this->DAO->DAO_Service->prepare($bwcfw_dao_table_stats_summary_60_query);
+            $bwcfw_dao_table_stats_summary_60_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_stats_summary_60_query);
             $bwcfw_dao_table_stats_summary_60_stmt->execute($bwcfw_dao_table_stats_summary_60_query_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -708,7 +751,8 @@ ON DUPLICATE KEY UPDATE table_rows = d.table_rows,
         }
     }
 
-    function loadDAOTableStatsDD() {
+    function loadDAOTableStatsDD()
+    {
         /* SQL - Query */
         $bwcfw_dao_table_stats_summary_dd_query = "
 INSERT INTO tbl_base_table_stats_dd(rdate,
@@ -748,7 +792,7 @@ ON DUPLICATE KEY UPDATE table_rows = d.table_rows,
         );
         /* SQL - Exec */
         try {
-            $bwcfw_dao_table_stats_summary_dd_stmt = $this->DAO->DAO_Service->prepare($bwcfw_dao_table_stats_summary_dd_query);
+            $bwcfw_dao_table_stats_summary_dd_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_stats_summary_dd_query);
             $bwcfw_dao_table_stats_summary_dd_stmt->execute($bwcfw_dao_table_stats_summary_dd_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -760,7 +804,8 @@ ON DUPLICATE KEY UPDATE table_rows = d.table_rows,
         }
     }
 
-    function loadDAOTableStatsMO() {
+    function loadDAOTableStatsMO()
+    {
         /* SQL - Query */
         $bwcfw_dao_table_stats_summary_mo_query = "
 INSERT INTO tbl_base_table_stats_mo(rdate,
@@ -800,7 +845,7 @@ ON DUPLICATE KEY UPDATE table_rows = d.table_rows,
         );
         /* SQL - Exec */
         try {
-            $bwcfw_dao_table_stats_summary_mo_stmt = $this->DAO->DAO_Service->prepare($bwcfw_dao_table_stats_summary_mo_query);
+            $bwcfw_dao_table_stats_summary_mo_stmt = $this->DAO->serviceDAO->prepare($bwcfw_dao_table_stats_summary_mo_query);
             $bwcfw_dao_table_stats_summary_mo_stmt->execute($bwcfw_dao_table_stats_summary_mo_params);
         } catch (PDOException $ex) {
             /* SQL - Error Handling */
@@ -812,15 +857,16 @@ ON DUPLICATE KEY UPDATE table_rows = d.table_rows,
         }
     }
 
-    function hasDAOTableInformation() {
-        return ($this->DAOTableInformation) ? TRUE : FALSE;
+    function hasDAOTableInformation()
+    {
+        return ($this->DAOTableInformation) ? true : false;
     }
 
-    function __construct() {
-        $this->class_data = new LoggingService(__FILE__, TRUE);
-        $this->DAO = new DAO_Service();
-        $this->DP = new bwcfwDecoratorPattern();
+    function __construct()
+    {
+        $this->class_data = new LoggingService(__FILE__, true);
+        $this->DAO = new serviceDAO();
+        $this->DP = new entityConfiguration();
         $this->setProcessingDates();
     }
-
 }

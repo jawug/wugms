@@ -1,5 +1,5 @@
 <!-- Scripts! -->
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/footer_required.php'); ?>
+<?php include($page_data->getIncludePath() . '/include_footer.php'); ?>
 </body>
 
 </html>

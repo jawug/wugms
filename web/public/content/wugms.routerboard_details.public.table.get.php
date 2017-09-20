@@ -1,22 +1,18 @@
 <?php
-
 if (!isset($_SESSION)) {
     session_start();
 }
 $ServerArray = filter_input_array(INPUT_SERVER);
-require_once($ServerArray['DOCUMENT_ROOT'] . '/../lib/bwcfw.classes.php');
-$page_data = new LoggingService(__FILE__, TRUE, TRUE);
+require_once($ServerArray['DOCUMENT_ROOT'] . '/../src/bwcfw.classes.php');
+$page_data = new PageLoggingService(__FILE__, true);
 $page_data->PageData->setRoleRequired("user");
-//include($ServerArray['DOCUMENT_ROOT'] . '/../lib/bwcfw.api.user.validation.get.php');
-//$page_data->PageData->setFileRecord(__FILE__);
-//if ($page_data->PageActions->getStatus()) {
 
 
 $GetArray = filter_input_array(INPUT_GET);
-$Validation = new entity_validation();
+$Validation = new serviceValidation();
 
 if (!$GetArray) {
-    $page_data->PageActions->setStatus(FALSE);
+    $page_data->PageActions->setStatus(false);
     $page_data->PageActions->setStatusCode("Missing Parameter(s)");
 }
 
@@ -31,13 +27,13 @@ if ($page_data->PageActions->getStatus()) {
                 $var = trim($GetArray['param']);
             }
         } catch (Exception $e) {
-            $page_data->PageActions->setStatus(FALSE);
+            $page_data->PageActions->setStatus(false);
             $page_data->PageActions->setStatusCode($e->getMessage());
             $page_data->PageActions->setExtendedStatusCode("Sub function located in " . $e->getFile());
             $page_data->PageActions->setLine($e->getLine());
         }
     } else {
-        $page_data->PageActions->setStatus(FALSE);
+        $page_data->PageActions->setStatus(false);
         $page_data->PageActions->setStatusCode("Missing 'param' Parameter");
     }
 }
@@ -50,11 +46,11 @@ if ($page_data->PageActions->getStatus()) {
     );
     /* SQL - Exec */
     try {
-        $select_routerboard_details_stmt = $page_data->DAO_Service->DAO_Service->prepare($select_routerboard_details_query);
+        $select_routerboard_details_stmt = $page_data->serviceDAO->serviceDAO->prepare($select_routerboard_details_query);
         $select_routerboard_details_result = $select_routerboard_details_stmt->execute($select_routerboard_details_query_param);
     } catch (PDOException $ex) {
         /* SQL - Error Handling */
-        $page_data->PageActions->setStatus(FALSE);
+        $page_data->PageActions->setStatus(false);
         $page_data->PageActions->setStatusCode("edit_leave_request_stmt");
         $page_data->PageActions->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
         $page_data->PageActions->setLine($ex->getLine());
@@ -86,11 +82,12 @@ if ($page_data->PageActions->getStatus()) {
 }
 
 /* Auditing/logging */
-$page_data->LogEntry((($page_data->PageActions->getStatus()) ? 1 : 3));
+$page_data->LogPageEntry((($page_data->PageActions->getStatus()) ? 1 : 3));
 $page_data->page_metric->page_metric($ServerArray, $_SESSION, $page_data->PageActions, session_id(), $page_data->PageData->getPageInfo());
 /* Deliver results */
 header('HTTP/1.1 ' . $page_data->PageData->PageWebStatus->getAPIResponseStatus() . ' ' . $page_data->PageData->PageWebStatus->getHTTPResponseCode());
 header('Content-Type: application/json; charset=utf-8');
 $json_response = json_encode($page_data->PageData->PageWebStatus->getAPIResponse(), JSON_NUMERIC_CHECK);
 echo $json_response;
+
 ?>

@@ -1,6 +1,6 @@
 <!-- Scripts! -->
 <?php
-include($PageEntity->getServerBase() . '/footer_required.php');
+include($page_data->getIncludePath() . '/include_footer.php');
 echo PHP_EOL;
 switch ($page_name) {
     case "corenetworkdevices":
@@ -65,6 +65,7 @@ switch ($page_name) {
     default:
     /* */
 }
+
 ?>
 
 </body>
