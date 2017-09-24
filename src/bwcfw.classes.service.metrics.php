@@ -1,58 +1,38 @@
 <?php
 
-class serviceMetrics
+class ServiceMetrics extends LoggingService
 {
 
     /**
      *
-     * @var object Database object 
+     * @var \ServiceDAO
      */
-    var $cdb;
+    private $serviceDAO;
 
     /**
      *
      * @var \voStatus
      */
-    var $ClassActions;
+    private $ClassActions;
 
     /**
-     * This function inits the DB so that other functions can access the database and perform actions.
-     * @return \voStatus Results from usage
-     */
-    function init_db()
-    {
-        try {
-            $this->cdb = new PDO("mysql:host={$this->database_settings->getHost()};dbname={$this->database_settings->getDataBase()};charset={$this->database_settings->getCharset()}", $this->database_settings->getUserName(), $this->database_settings->getPassword(), $this->database_settings->getDataBaseOptions());
-        } catch (PDOException $ex) {
-            $this->ClassActions->setStatus(false);
-            $this->ClassActions->setStatusCode("init DAO");
-            $this->ClassActions->setExtendedStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $ex->getMessage())));
-            $this->ClassActions->setLine($ex->getLine());
-        }
-        if ($this->ClassActions->getStatus()) {
-            $this->cdb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->cdb->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        }
-    }
-
-    /**
-     * 
+     *
      * This function get the user's IP address based on the getenv('REMOTE_ADDR') value.
      * @return string This is the IP address that the user is currently using
      */
-    function get_client_ip()
+    private function getClientIP()
     {
         return getenv('REMOTE_ADDR');
     }
 
     /**
-     * 
+     *
      * @param array $array Array to be searched
      * @param string $arrayitem Named array item
      * @param string $value Value to match in array
      * @return boolean If result found then true
      */
-    function isValueInArray($array, $arrayitem, $value)
+    private function isValueInArray($array, $arrayitem, $value)
     {
         foreach ($array as $item) {
             if (strtoupper(strval($item[$arrayitem])) == strtoupper($value)) {
@@ -66,21 +46,19 @@ class serviceMetrics
     }
 
     /**
-     * This function is used in order to log the emails that get sent out. That information in turn is used for metrics and audting
-     * 
-     * @param string $email_type This is the "type" of email that was sent; "feedback" or "invite"
-     * @param string $email_to This is the "to" field that is usually used in emails
-     * @param string $email_cc This is the "cc" field that is usually used in emails
-     * @param string $email_bcc This is the "bcc" field that is usually used in emails
-     * @param string $email_size This is the size of the main body of the email
-     * @param string $email_status This is the status of when the email was sent; "ok" or "Error"
-     * @param string $email_extended_data This field represents the extended error information
-     * @return \voStatus This indicates the status
+     *
+     * @param string $email_type
+     * @param string $email_to
+     * @param string $email_cc
+     * @param string $email_bcc
+     * @param string $email_size
+     * @param string $email_status
+     * @param string $email_extended_data
+     * @return \voStatus
      */
-    function metrics_email($email_type, $email_to, $email_cc, $email_bcc, $email_size, $email_status, $email_extended_data)
+    public function loadMetricsEmail($email_type, $email_to, $email_cc, $email_bcc, $email_size, $email_status, $email_extended_data)
     {
-        $metrics_email_status = new voStatus();
-        if ($this->init_db()) {
+        if ($this->serviceDAO->getDAOStatus()) {
             /* SQL - Query */
             $metrics_email_query = "
 	INSERT INTO tbl_base_metric_emails(email_type, email_to, email_cc, email_bcc, email_size, email_status, email_extended_data, sid)
@@ -98,36 +76,38 @@ class serviceMetrics
             );
             /* SQL - Exec */
             try {
-                $metrics_email_stmt = $this->cdb->prepare($metrics_email_query);
-                $metrics_email_status->status = $metrics_email_stmt->execute($metrics_email_query_params);
-            } catch (PDOException $ex) {
-                /* SQL - Error(s) */
-                $metrics_email_status->status_code = $ex->getMessage();
-                $metrics_email_status->status = false;
+                $metrics_email_stmt = $this->serviceDAO->ServicePDO->prepare($metrics_email_query);
+                $metrics_email_stmt->execute($metrics_email_query_params);
+            } catch (PDOException $e) {
+                $this->ClassActions->setStatus(false);
+                $this->ClassActions->setStatusCode($e->getMessage());
+                $this->ClassActions->setExtendedStatusCode("Sub function located in " . $e->getFile());
+                $this->ClassActions->setLine($e->getLine());
             }
         } else {
-            $metrics_email_status->status_code = $this->init_db()->status_code;
-            $metrics_email_status->status = false;
+            $this->ClassActions->setStatus($this->serviceDAO->getDAOStatus());
+            $this->ClassActions->setStatusCode($this->serviceDAO->getDAOStatusCode());
         }
-        return $metrics_email_status;
+        $this->LogBasicEntry((($this->classStatus->getStatus()) ? 1 : 3), get_class($this->serviceDAO), $this->classStatus->getStatusStr(), $this->classStatus->getStatusCode(), $this->classStatus->getExtendedStatusCode(), $this->classStatus->getLine());
+        return $this->ClassActions;
     }
 
     /**
-     * 
-     * @param string $audit_username The user's username
-     * @param string $audit_user_id The ID of the user
-     * @param string $audit_level The level, "admin/"user"
-     * @param string $audit_action Action types "add"/"edit"/"delete"
-     * @param string $audit_area What section was the action done in.
-     * @param string $audit_msg Message from the action
+     *
+     * @param string $audit_username
+     * @param string $audit_user_id
+     * @param string $audit_level
+     * @param string $audit_action
+     * @param string $audit_area
+     * @param string $audit_msg
+     * @param string $page
+     * @param string $status
+     * @param string $extended_status
      * @return \voStatus
      */
-    function user_audit($audit_username, $audit_user_id, $audit_level, $audit_action, $audit_area, $audit_msg, $page, $status, $extended_status = "-")
+    public function loadUserAudit($audit_username, $audit_user_id, $audit_level, $audit_action, $audit_area, $audit_msg, $page, $status, $extended_status = "-")
     {
-        $start = microtime(true);
-        $user_audit_status = new voStatus();
-
-        if ($this->init_db()) {
+        if ($this->serviceDAO->getDAOStatus()) {
             /* Check username */
             if ($audit_username) {
                 $currentuser = $audit_username;
@@ -142,7 +122,7 @@ class serviceMetrics
             }
             /* SQL - Query */
             $user_audit_query = "
-	INSERT INTO tbl_base_user_audit(username, username_id, session_id, user_ip, level, area, action, msg, browser_agent, sid, page, extended_status, status)
+	INSERT INTO tbl_base_loadUserAudit(username, username_id, session_id, user_ip, level, area, action, msg, browser_agent, sid, page, extended_status, status)
 	VALUES (:username, :username_id, :session_id, :userip, :level, :area, :action, :msg, :browser_agent, :sid, :page, :extended_status, :status);";
             /* SQL - Params */
             $user_audit_query_params = array(
@@ -150,7 +130,7 @@ class serviceMetrics
                 ':username_id' => $user_id,
                 ':session_id' => session_id(),
                 ':browser_agent' => $_SERVER['HTTP_USER_AGENT'],
-                ':userip' => $this->get_client_ip(),
+                ':userip' => $this->getClientIP(),
                 ':level' => $audit_level,
                 ':area' => $audit_area,
                 ':action' => $audit_action,
@@ -163,23 +143,26 @@ class serviceMetrics
 
             /* SQL - Exec */
             try {
-                $user_audit_stmt = $this->cdb->prepare($user_audit_query);
-                $user_audit_status->status = $user_audit_stmt->execute($user_audit_query_params);
-            } catch (PDOException $ex) {
-                /* SQL - Error(s) */
-                $user_audit_status->status_code = $ex->getMessage();
-                $this->cdb->rollBack();
+                $user_audit_stmt = $this->serviceDAO->ServicePDO->prepare($user_audit_query);
+                $user_audit_stmt->execute($user_audit_query_params);
+            } catch (PDOException $e) {
+                $this->ClassActions->setStatus(false);
+                $this->ClassActions->setStatusCode($e->getMessage());
+                $this->ClassActions->setExtendedStatusCode("Sub function located in " . $e->getFile());
+                $this->ClassActions->setLine($e->getLine());
             }
         } else {
-            $user_audit_status->status_code = $this->init_db()->status_code;
-            $user_audit_status->status = false;
+            $this->ClassActions->setStatus($this->serviceDAO->getDAOStatus());
+            $this->ClassActions->setStatusCode($this->serviceDAO->getDAOStatusCode());
         }
-        return $user_audit_status;
+        $this->LogBasicEntry((($this->classStatus->getStatus()) ? 1 : 3), get_class($this->serviceDAO), $this->classStatus->getStatusStr(), $this->classStatus->getStatusCode(), $this->classStatus->getExtendedStatusCode(), $this->classStatus->getLine());
+        return $this->ClassActions;
     }
 
-    function __construct()
+    public function __construct()
     {
-        $this->database_settings = new voDAO();
+        parent::__construct();
+        $this->serviceDAO = new ServiceDAO();
         $this->ClassActions = new voStatus();
     }
 }

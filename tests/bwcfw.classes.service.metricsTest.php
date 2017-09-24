@@ -4,14 +4,14 @@ declare(strict_types = 1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers serviceMetrics
+ * @covers ServiceMetrics
  */
-final class serviceMetricsTest extends TestCase
+final class ServiceMetricsTest extends TestCase
 {
 
-    public function testCreateserviceMetricsInstance(): void
+    public function testCreateServiceMetricsInstance(): void
     {
-        $serviceMetrics = new serviceMetrics();
-        $this->assertInstanceOf(serviceMetrics::class, $serviceMetrics);
+        $ServiceMetrics = new ServiceMetrics();
+        $this->assertInstanceOf(ServiceMetrics::class, $ServiceMetrics);
     }
 }

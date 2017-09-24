@@ -7,78 +7,78 @@ class entityConfiguration
 
     /**
      *
-     * @var string This is the external URL 
+     * @var string This is the external URL
      */
     private $baseurl;
 
     /**
      *
-     * @var string This is the internal URL 
+     * @var string This is the internal URL
      */
     private $baseurlinternal;
 
     /**
      *
-     * @var string This is the footer seen at the bottom of the pages 
+     * @var string This is the footer seen at the bottom of the pages
      */
     private $footer_copy;
 
     /**
      *
-     * @var string This is the basic site name 
+     * @var string This is the basic site name
      */
     private $HomeSiteURL;
 
     /**
      *
-     * @var string This is the company's name in long format 
+     * @var string This is the company's name in long format
      */
     private $LongName;
 
     /**
      *
-     * @var string This is the company's name in short format 
+     * @var string This is the company's name in short format
      */
     private $ShortName;
 
     /**
      *
-     * @var string This is the admin's email address 
+     * @var string This is the admin's email address
      */
     private $bwcfwadminemail;
 
     /**
      *
-     * @var string This is the basic site name 
+     * @var string This is the basic site name
      */
     private $bwcfwSiteURL;
 
     /**
      *
-     * @var string This is the short site name 
+     * @var string This is the short site name
      */
     private $WShortSiteName;
 
     /**
      *
-     * @var string This is the long site name 
+     * @var string This is the long site name
      */
     private $SiteName;
 
     /**
-     * 
+     *
      */
     private $log_path;
 
     /**
      *
-     * @var string This is the location where uploaded files will be stored on the server 
+     * @var string This is the location where uploaded files will be stored on the server
      */
     private $uploads_path;
 
     /**
      *
-     * @var string This si the path to the vendor files 
+     * @var string This si the path to the vendor files
      */
     private $vendor_path;
 
@@ -89,154 +89,154 @@ class entityConfiguration
     private $emails_path;
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getBaseURLExternal()
+    public function getBaseURLExternal()
     {
         return $this->baseurl;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setBaseURLExternal($value)
+    public function setBaseURLExternal($value)
     {
         $this->baseurl = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getBaseURLInternal()
+    public function getBaseURLInternal()
     {
         return $this->baseurlinternal;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setBaseURLInternal($value)
+    public function setBaseURLInternal($value)
     {
         $this->baseurlinternal = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getHomeSiteURL()
+    public function getHomeSiteURL()
     {
         return $this->HomeSiteURL;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setHomeSiteURL($value)
+    public function setHomeSiteURL($value)
     {
         $this->HomeSiteURL = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getShortName()
+    public function getShortName()
     {
         return $this->ShortName;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setShortName($value)
+    public function setShortName($value)
     {
         $this->ShortName = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getAdminEmail()
+    public function getAdminEmail()
     {
         return $this->bwcfwadminemail;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setAdminEmail($value)
+    public function setAdminEmail($value)
     {
         $this->bwcfwadminemail = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getBWCFWSiteURL()
+    public function getBWCFWSiteURL()
     {
         return $this->bwcfwSiteURL;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setBWCFWSiteURL($value)
+    public function setBWCFWSiteURL($value)
     {
         $this->bwcfwSiteURL = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getShortSiteName()
+    public function getShortSiteName()
     {
         return $this->WShortSiteName;
     }
 
     /**
-     * 
+     *
      * @param string $value This sets the internal variable
      */
-    function setShortSiteName($value)
+    public function setShortSiteName($value)
     {
         $this->WShortSiteName = $value;
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
-    function getSiteTitle()
+    public function getSiteTitle()
     {
         return $this->sitetitle;
     }
 
     /**
-     * 
+     *
      * @param string $title This sets the internal variable
      */
-    function setSiteTitle($title)
+    public function setSiteTitle($title)
     {
         $this->sitetitle = $title;
     }
 
     /**
-     * 
+     *
      * @return string This returns the file base for where all files are located
      */
-    function getServerBase()
+    public function getServerBase()
     {
         return $this->server_base;
     }
@@ -250,142 +250,142 @@ class entityConfiguration
      *
      * @param string $path
      */
-    function setLogPath($path)
+    public function setLogPath($path)
     {
         $this->log_path = $path;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getLogPath()
+    public function getLogPath()
     {
         return $this->log_path;
     }
 
     /**
-     * 
+     *
      * @return String Footer copyright
      */
-    function getFooterCopy()
+    public function getFooterCopy()
     {
         return $this->footer_copy;
     }
 
     /**
-     * 
+     *
      * @param string $string This is the Footer of the application
      */
-    function setFooterCopy($string)
+    public function setFooterCopy($string)
     {
         $this->footer_copy = $string;
     }
 
     /**
-     * 
+     *
      * @param string $path
      */
-    function setUploadsPath($path)
+    public function setUploadsPath($path)
     {
         $this->uploads_path = $path;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getUploadsPath()
+    public function getUploadsPath()
     {
         return $this->uploads_path;
     }
 
     /**
-     * 
+     *
      * @param string $path
      */
-    function setVendorPath($path)
+    public function setVendorPath($path)
     {
         $this->vendor_path = $path;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getVendorPath()
+    public function getVendorPath()
     {
         return $this->vendor_path;
     }
 
     /**
-     * 
+     *
      * @param string $path
      */
-    function setTemplatePath($path)
+    public function setTemplatePath($path)
     {
         $this->template_path = $path;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getTemplatePath()
+    public function getTemplatePath()
     {
         return $this->template_path;
     }
 
     /**
-     * 
+     *
      * @param string $config
      */
-    function setConfigPath($config)
+    public function setConfigPath($config)
     {
         $this->config_path = $config;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getConfigPath()
+    public function getConfigPath()
     {
         return $this->config_path;
     }
 
     /**
-     * 
+     *
      * @param string $path
      */
-    function setIncludePath($path)
+    public function setIncludePath($path)
     {
         $this->include_path = $path;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getIncludePath()
+    public function getIncludePath()
     {
         return $this->include_path;
     }
 
     /**
-     * 
+     *
      * @param string $path
      */
-    function setEmailsPath($path)
+    public function setEmailsPath($path)
     {
         $this->emails_path = $path;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getEmailsPath()
+    public function getEmailsPath()
     {
         return $this->emails_path;
     }
@@ -394,7 +394,7 @@ class entityConfiguration
      *
      * @param string $path
      */
-    function setFormsPath($path)
+    public function setFormsPath($path)
     {
         $this->forms_path = $path;
     }
@@ -403,120 +403,120 @@ class entityConfiguration
      *
      * @return string
      */
-    function getFormsPath()
+    public function getFormsPath()
     {
         return $this->forms_path;
     }
 
     /**
-     * 
+     *
      * @param string $php_min
      */
-    function setPHPMinVersion($php_min)
+    public function setPHPMinVersion($php_min)
     {
         $this->php_min = $php_min;
     }
 
     /**
-     * 
+     *
      * @param string $php_max
      */
-    function setPHPMaxVersion($php_max)
+    public function setPHPMaxVersion($php_max)
     {
         $this->php_max = $php_max;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getPHPMinVersion()
+    public function getPHPMinVersion()
     {
         return $this->php_min;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getPHPMaxVersion()
+    public function getPHPMaxVersion()
     {
         return $this->php_max;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getSiteDescription()
+    public function getSiteDescription()
     {
         return $this->site_description;
     }
 
     /**
-     * 
+     *
      * @param type $description
      */
-    function setSiteDescription($description)
+    public function setSiteDescription($description)
     {
         $this->site_description = $description;
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
-    function getSMTPUsage()
+    public function getSMTPUsage()
     {
         return $this->allow_smtp;
     }
 
     /**
-     * 
+     *
      * @param boolean $allow_smtp
      */
-    function setSMTPUsage($allow_smtp)
+    public function setSMTPUsage($allow_smtp)
     {
         $this->allow_smtp = $allow_smtp;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getAppName()
+    public function getAppName()
     {
         return $this->app_name;
     }
 
     /**
-     * 
+     *
      * @param string $title
      */
-    function setAppName($title)
+    public function setAppName($title)
     {
         $this->app_name = $title;
     }
 
     /**
-     * 
+     *
      * @return string
      */
-    function getSiteAbstract()
+    public function getSiteAbstract()
     {
         return $this->site_abstract;
     }
 
     /**
-     * 
+     *
      * @param type $abstract
      */
-    function setSiteAbstract($abstract)
+    public function setSiteAbstract($abstract)
     {
         $this->site_abstract = $abstract;
     }
 
-    private function LoadConfiguration()
+    private function loadConfiguration()
     {
         $string = file_get_contents($this->getConfigPath() . "settings.json");
         $json_a = json_decode($string, true);
@@ -554,22 +554,20 @@ class entityConfiguration
      */
     private function setAppBase()
     {
-        $sbase = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT');
-        if ($sbase) {
-            $this->setServerBase($sbase);
-        } else {
-            $this->setServerBase($this->server_base = __DIR__);
+        $this->setServerBase(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'));
+        if (!$this->getServerBase()) {
+            $this->setServerBase(__DIR__);
         }
     }
 
     /**
      * Main constructor function
      */
-    function __construct()
+    public function __construct()
     {
         date_default_timezone_set('Africa/Johannesburg');
         $this->setAppBase();
         $this->setAppPaths();
-        $this->LoadConfiguration();
+        $this->loadConfiguration();
     }
 }

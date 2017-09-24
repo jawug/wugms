@@ -4,14 +4,14 @@ declare(strict_types = 1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers auditHandover
+ * @covers AuditHandOver
  */
-final class auditHandoverTest extends TestCase
+final class AuditHandOverTest extends TestCase
 {
 
     public function testCreateAudit_ServiceInstance(): void
     {
-        $auditHandover = new auditHandover();
-        $this->assertInstanceOf(auditHandover::class, $auditHandover);
+        $AuditHandOver = new AuditHandOver();
+        $this->assertInstanceOf(AuditHandOver::class, $AuditHandOver);
     }
 }

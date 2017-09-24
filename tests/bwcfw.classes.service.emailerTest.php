@@ -4,14 +4,14 @@ declare(strict_types = 1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers serviceEmailer
+ * @covers ServiceEmailer
  */
-final class serviceEmailerTest extends TestCase
+final class ServiceEmailerTest extends TestCase
 {
 
-    public function testCreateserviceEmailerInstance(): void
+    public function testCreateServiceEmailerInstance(): void
     {
-        $serviceEmailer = new serviceEmailer();
-        $this->assertInstanceOf(serviceEmailer::class, $serviceEmailer);
+        $ServiceEmailer = new ServiceEmailer();
+        $this->assertInstanceOf(ServiceEmailer::class, $ServiceEmailer);
     }
 }

@@ -5,7 +5,7 @@ class serviceUser
 
     /**
      *
-     * @var \serviceDAO This the DAO object 
+     * @var \ServiceDAO This the DAO object 
      */
     private $DAO;
 
@@ -23,7 +23,7 @@ class serviceUser
 
     /**
      *
-     * @var \serviceEmailer This is the Mailer object
+     * @var \ServiceEmailer This is the Mailer object
      */
     public $mail;
 
@@ -498,7 +498,7 @@ class serviceUser
 
     function DAOGetUserRoles($user_id)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->ClassActions->getStatus()) {
@@ -508,7 +508,7 @@ class serviceUser
             $get_user_roles_query_params = array(':user_id' => $user_id);
             /* SQL - Exec */
             try {
-                $get_user_roles_query_stmt = $this->DAO->serviceDAO->prepare($get_user_roles_query);
+                $get_user_roles_query_stmt = $this->DAO->ServiceDAO->prepare($get_user_roles_query);
                 $get_user_roles_query_stmt->execute($get_user_roles_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -571,7 +571,7 @@ class serviceUser
      */
     function DAOUserAlterAudit($edit_user_id, $edit_user_site_id, $altered_user_id, $altered_user_site_id, $action, $msg)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->DAO->DAO_status->getStatus()) {
@@ -602,7 +602,7 @@ class serviceUser
             );
             /* SQL - Exec */
             try {
-                $insert_user_alter_audit_query_stmt = $this->DAO->serviceDAO->prepare($insert_user_alter_audit_query);
+                $insert_user_alter_audit_query_stmt = $this->DAO->ServiceDAO->prepare($insert_user_alter_audit_query);
                 $insert_user_alter_audit_query_stmt->execute($insert_user_alter_audit_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -621,7 +621,7 @@ class serviceUser
      */
     function DAOGetUserDetails($user_id)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->DAO->DAO_status->getStatus()) {
@@ -655,7 +655,7 @@ class serviceUser
             $get_user_details_query_params = array(':user_id' => $user_id);
             /* SQL - Exec */
             try {
-                $get_user_details_query_stmt = $this->DAO->serviceDAO->prepare($get_user_details_query);
+                $get_user_details_query_stmt = $this->DAO->ServiceDAO->prepare($get_user_details_query);
                 $get_user_details_query_stmt->execute($get_user_details_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -685,7 +685,7 @@ class serviceUser
      */
     function DAOUserAudit($sessionID, $level, $action, $area, $msg)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->ClassActions->getStatus()) {
@@ -706,7 +706,7 @@ class serviceUser
             );
             /* SQL - Exec */
             try {
-                $insert_user_audit_query_stmt = $this->DAO->serviceDAO->prepare($insert_user_audit_query);
+                $insert_user_audit_query_stmt = $this->DAO->ServiceDAO->prepare($insert_user_audit_query);
                 $insert_user_audit_query_stmt->execute($insert_user_audit_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -727,7 +727,7 @@ class serviceUser
 //     */
 //    function DAOUpdateUserRoles($roles, $keep_main = true)
 //    {
-//        if (!$this->DAO->serviceDAO) {
+//        if (!$this->DAO->ServiceDAO) {
 //            $this->ClassActions = $this->DAO->initDAO();
 //        }
 //        if ($this->ClassActions->getStatus()) {
@@ -743,7 +743,7 @@ class serviceUser
 //            );
 //            /* SQL - Exec */
 //            try {
-//                $role_clean_stmt = $this->DAO->serviceDAO->prepare($role_clean_query);
+//                $role_clean_stmt = $this->DAO->ServiceDAO->prepare($role_clean_query);
 //                $role_clean_stmt->execute($role_clean_params);
 //            } catch (PDOException $ex) {
 //                $this->ClassActions->setStatus(false);
@@ -763,7 +763,7 @@ class serviceUser
 //                    );
 //                    /* SQL - Exec */
 //                    try {
-//                        $role_add_stmt = $this->DAO->serviceDAO->prepare($role_add_query);
+//                        $role_add_stmt = $this->DAO->ServiceDAO->prepare($role_add_query);
 //                        $role_add_result = $role_add_stmt->execute($role_add_params);
 //                    } catch (PDOException $ex) {
 //                        $this->ClassActions->setStatus(false);
@@ -779,7 +779,7 @@ class serviceUser
 
     function DAOUpdateAccountStatus($status)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->ClassActions->getStatus()) {
@@ -792,7 +792,7 @@ class serviceUser
             );
             /* SQL - Exec */
             try {
-                $update_account_status_query_stmt = $this->DAO->serviceDAO->prepare($update_account_status_query);
+                $update_account_status_query_stmt = $this->DAO->ServiceDAO->prepare($update_account_status_query);
                 $update_account_status_query_stmt->execute($update_account_status_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -806,7 +806,7 @@ class serviceUser
 
     function DAOAddInitRoles($user_id, $site_id, $role_id)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->ClassActions->getStatus()) {
@@ -820,7 +820,7 @@ class serviceUser
             );
             /* SQL - Exec */
             try {
-                $insert_init_user_role_query_stmt = $this->DAO->serviceDAO->prepare($insert_init_user_role_query);
+                $insert_init_user_role_query_stmt = $this->DAO->ServiceDAO->prepare($insert_init_user_role_query);
                 $insert_init_user_role_query_stmt->execute($insert_init_user_role_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -834,7 +834,7 @@ class serviceUser
 
     function DAOClearInitRoles($user_id, $site_id, $role_id)
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->ClassActions->getStatus()) {
@@ -851,7 +851,7 @@ class serviceUser
             );
             /* SQL - Exec */
             try {
-                $delete_init_user_role_query_stmt = $this->DAO->serviceDAO->prepare($delete_init_user_role_query);
+                $delete_init_user_role_query_stmt = $this->DAO->ServiceDAO->prepare($delete_init_user_role_query);
                 $delete_init_user_role_query_stmt->execute($delete_init_user_role_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -865,7 +865,7 @@ class serviceUser
 
     function DAOUpdateAccountPassword()
     {
-        if (!$this->DAO->serviceDAO) {
+        if (!$this->DAO->ServiceDAO) {
             $this->ClassActions = $this->DAO->initDAO();
         }
         if ($this->ClassActions->getStatus()) {
@@ -881,7 +881,7 @@ class serviceUser
             );
             /* SQL - Exec */
             try {
-                $update_account_password_query_stmt = $this->DAO->serviceDAO->prepare($update_account_password_query);
+                $update_account_password_query_stmt = $this->DAO->ServiceDAO->prepare($update_account_password_query);
                 $update_account_password_query_stmt->execute($update_account_password_query_params);
             } catch (PDOException $ex) {
                 $this->ClassActions->setStatus(false);
@@ -993,9 +993,9 @@ class serviceUser
         $this->configuration = new LoggingService();
         $this->mailer_settings = new voSMTP();
         $this->ClassActions = new voStatus();
-        $this->DAO = new serviceDAO(false);
+        $this->DAO = new ServiceDAO(false);
         /* Mailer */
-        $this->mail = new serviceEmailer();
+        $this->mail = new ServiceEmailer();
         $this->SetMailerSettings();
         /* If there is a populated $user_id then get the details for that */
         if ($user_id) {

@@ -1,58 +1,52 @@
 <?php
 
-class serviceEmailer
+class ServiceEmailer extends LoggingService
 {
 
-    /**
-     *
-     * @var \LoggingService Logging Service 
-     */
-    private $configuration;
-
-    function setMSubject($subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
     }
 
-    function getMSubject()
+    private function getSubject()
     {
         return $this->subject;
     }
 
-    function setMContents($email_contents)
+    public function setContents($email_contents)
     {
         $this->email_contents = $email_contents;
     }
 
-    function getMContents()
+    private function getContents()
     {
         return $this->email_contents;
     }
 
-    function setMType($type)
+    public function setType($type)
     {
         $this->type = $type;
     }
 
-    function getMType()
+    private function getType()
     {
         return $this->type;
     }
 
     /**
-     * 
+     *
      * @return integer This is the size of the email content that was sent
      */
-    function getLeaveEmailSize()
+    private function getLeaveEmailSize()
     {
         return $this->leave_email_size;
     }
 
     /**
-     * 
+     *
      * @param integer $leave_email_size This is the size of the email content that was sent
      */
-    function setLeaveEmailSize($leave_email_size)
+    public function setLeaveEmailSize($leave_email_size)
     {
         $this->leave_email_size = $leave_email_size;
     }
@@ -65,37 +59,31 @@ class serviceEmailer
 
     /**
      *
-     * @var \entityConfiguration 
-     */
-    public $DecoratorPattern;
-
-    /**
-     *
      * @var \voStatus
      */
-    var $ClassActions;
+    private $ClassActions;
 
     /**
      *
      * @var \voSMTP
      */
-    var $mailer_smtp_config;
+    private $mailer_smtp_config;
 
-    function __construct()
+    public function __construct()
     {
-        $this->configuration = new LoggingService(false, false, false, true);
-        require_once $this->configuration->getVendorPath() . 'phpmailer/phpmailer/PHPMailerAutoload.php';
+        parent::__construct();
+        require_once $this->getVendorPath() . 'phpmailer/phpmailer/PHPMailerAutoload.php';
         $this->ClassActions = new voStatus();
         $this->mailer_smtp_config = new voSMTP();
         $this->mailer = new PHPMailer(true);
     }
 
     /**
-     * 
-     * @param /voEmailer $msg_content This contains all of the information 
+     *
+     * @param /voEmailer $msg_content This contains all of the information
      * @return /voStatus
      */
-    function bwcfw_emailer()
+    public function MailerSend()
     {
         try {
             $this->mailer->isSMTP();
@@ -113,7 +101,7 @@ class serviceEmailer
             $this->ClassActions->setStatus($this->mailer->send());
         } catch (phpmailerException $e) {
             $this->ClassActions->setStatus(false);
-            $this->ClassActions->setStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $e->getMessage())));
+            $this->ClassActions->setStatusCode(htmlspecialchars(str_replace(PHP_EOL, '', $e->getessage())));
             $this->ClassActions->setLine($e->getLine());
         }
         if ($this->ClassActions->getStatus()) {
@@ -125,13 +113,12 @@ class serviceEmailer
 
     private function WriteEmailToDisk()
     {
-        $fn = $this->DecoratorPattern->getEmailsPath() . $this->getMType() . "." . microtime() . ".html";
-        file_put_contents($fn, $this->getMContents());
+        $fn = $this->DecoratorPattern->getEmailsPath() . $this->getType() . "." . microtime() . ".html";
+        file_put_contents($fn, $this->getContents());
         $this->setLeaveEmailSize(filesize($fn));
     }
-
-    private function EmailAuditMetric()
-    {
-        
-    }
+//    private function EmailAuditMetric()
+//    {
+//
+//    }
 }

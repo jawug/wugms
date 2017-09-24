@@ -19,7 +19,6 @@ if (!$GetArray) {
 if ($page_data->PageActions->getStatus()) {
     if (array_key_exists('param', $GetArray)) {
         try {
-
             $qwerty = substr($GetArray['param'], 0, 5);
             if ($qwerty == "Ver. ") {
                 $var = substr($GetArray['param'], 5, strlen($GetArray['param']) - 4);
@@ -46,7 +45,7 @@ if ($page_data->PageActions->getStatus()) {
     );
     /* SQL - Exec */
     try {
-        $select_routerboard_details_stmt = $page_data->serviceDAO->serviceDAO->prepare($select_routerboard_details_query);
+        $select_routerboard_details_stmt = $page_data->ServiceDAO->ServicePDO->prepare($select_routerboard_details_query);
         $select_routerboard_details_result = $select_routerboard_details_stmt->execute($select_routerboard_details_query_param);
     } catch (PDOException $ex) {
         /* SQL - Error Handling */

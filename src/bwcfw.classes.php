@@ -1,6 +1,7 @@
 <?php
 include_once 'bwcfw.classes.entity.configuration.php';
 include_once 'bwcfw.classes.service.logging.php';
+include_once 'bwcfw.classes.service.pagelogging.php';
 
 include_once 'bwcfw.classes.service.audit.php';
 include_once 'bwcfw.classes.service.auditHandover.php';

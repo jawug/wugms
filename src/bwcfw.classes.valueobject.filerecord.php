@@ -5,7 +5,7 @@ class voFileRecord
 
     /**
      *
-     * @var string the name of the file that was called 
+     * @var string the name of the file that was called
      */
     private $filename;
 
@@ -29,7 +29,7 @@ class voFileRecord
 
     /**
      *
-     * @var array The min role required in order to use this page 
+     * @var array The min role required in order to use this page
      */
     private $roles_required = array();
 
@@ -41,54 +41,54 @@ class voFileRecord
 
     /**
      *
-     * @var string The min  
+     * @var string The min
      */
     private $level;
 
     /**
      *
-     * @var string Chart/table/user 
+     * @var string Chart/table/user
      */
     private $area;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     private $type;
 
     /**
      *
-     * @var string add/edit/delete/get/post 
+     * @var string add/edit/delete/get/post
      */
     private $action;
 
     /**
      *
-     * @var string Any optional parameters that were called 
+     * @var string Any optional parameters that were called
      */
     private $params;
 
     /**
      *
-     * @var array 
+     * @var array
      */
     private $pageinfoarray;
 
     /**
      *
-     * @var \voWebPage 
+     * @var \voWebPage
      */
     public $PageWebStatus;
 
     /**
      *
-     * @var type 
+     * @var type
      */
     public $PageActions;
 
     /**
-     * 
+     *
      * @param string $name This sets the internal variable
      */
     function setName($name)
@@ -100,7 +100,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
     function getFileName()
@@ -109,7 +109,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string returns the path of the file
      */
     function getFilePath()
@@ -118,7 +118,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param string $role This sets the internal variable
      */
     function setRolesRequired($role)
@@ -127,7 +127,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return array This gets the internal variable
      */
     function getRolesRequired()
@@ -136,7 +136,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param array $roles This contains an array with the list of roles that needs to be checked
      * @param string $akey This optional parameter is in case the array been sent has sub keys
      * @return boolean true if the roles overlap, false if they do not
@@ -156,7 +156,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param array $roles This contains an array with the list of roles that needs to be checked
      * @param string $required_role  This is the var which contains the singular role that needs to be checked.
      * @param type $akey  This optional parameter is in case the array been sent has sub keys
@@ -179,8 +179,8 @@ class voFileRecord
     }
 
     /**
-     * 
-     * @param string $section This is the section of the application that is been used. 
+     *
+     * @param string $section This is the section of the application that is been used.
      */
     function setSection($section)
     {
@@ -188,7 +188,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string
      */
     function getSection()
@@ -197,7 +197,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param string $level This sets the internal variable
      */
     function setLevel($level)
@@ -206,7 +206,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
     function getParams()
@@ -215,7 +215,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param string $params This sets the internal variable
      */
     function setParams($params)
@@ -224,7 +224,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
     function getLevel()
@@ -233,7 +233,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param string $area This sets the internal variable
      */
     function setArea($area)
@@ -242,7 +242,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
     function getType()
@@ -251,7 +251,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param string $type This sets the internal variable
      */
     function setType($type)
@@ -260,7 +260,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
     function getArea()
@@ -269,7 +269,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @param string $action This sets the internal variable
      */
     function setAction($action)
@@ -278,7 +278,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string This gets the internal variable
      */
     function getAction()
@@ -287,7 +287,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return string
      */
     function getPageWebStatusDebugMsg()
@@ -296,7 +296,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getPageWebStatusInfoMsg()
@@ -306,12 +306,12 @@ class voFileRecord
 
     /**
      *
-     * @var type 
+     * @var type
      */
     var $ClientIP;
 
     /**
-     * 
+     *
      * @return type
      */
     function getClientIP()
@@ -320,7 +320,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      */
     function setClientIP()
     {
@@ -345,7 +345,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      * @return array
      */
     function getPageInfo()
@@ -411,7 +411,7 @@ class voFileRecord
     }
 
     /**
-     * 
+     *
      */
     public function __construct($fn = false)
     {

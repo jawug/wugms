@@ -1,30 +1,30 @@
 <?php
 
-class auditHandover
+class AuditHandOver
 {
 
     /**
      *
-     * @var \entityConfiguration 
+     * @var \entityConfiguration
      */
     private $configuration;
 
     /**
      *
-     * @var array 
+     * @var array
      */
     private $post_params;
 
     /**
      * We package the information as we need it and then send it off to the fire and forget solution
-     * 
+     *
      * @param \$_SERVER $CServerArray
      * @param \$_SESSION $CSession
      * @param \voStatus $PageActions
      * @param string $sessionID
      * @param array $PageInfo
      */
-    function page_metric($CServerArray, $CSession, $PageActions, $sessionID, $PageInfo)
+    public function page_metric($CServerArray, $CSession, $PageActions, $sessionID, $PageInfo)
     {
         if (array_key_exists('username', $CSession)) {
             $this->post_params["username"] = $CSession["username"];
@@ -49,13 +49,13 @@ class auditHandover
         $this->post_params["browser_agent"] = $CServerArray['HTTP_USER_AGENT'];
         $this->post_params["extended_status"] = $PageActions->ExtendedStatusCode;
         $this->post_params["line"] = $PageActions->Line;
-        $this->page_metric_post();
+        $this->PageMetricPost();
     }
 
     /**
      * Function for fire and forget items to the auditing sub system
      */
-    private function page_metric_post()
+    private function PageMetricPost()
     {
         foreach ($this->post_params as $key => &$val) {
             $post_params[] = $key . '=' . urlencode($val);
@@ -71,13 +71,13 @@ class auditHandover
         $output .= "Connection: Close\r\n\r\n";
         $output .= isset($post_string) ? $post_string : '';
         $fp = @fsockopen($url_host, $url_port, $errno, $errstr, 0.01);
-        //$fp = fsockopen($url_host, $url_port, $errno, $errstr, 0.01);
+//$fp = fsockopen($url_host, $url_port, $errno, $errstr, 0.01);
         fwrite($fp, $output);
         fclose($fp);
     }
 
     /**
-     * 
+     *
      * @param string $host
      */
     private function setAuditHost($host)
@@ -86,7 +86,7 @@ class auditHandover
     }
 
     /**
-     * 
+     *
      * @return string
      */
     private function getAuditHost()
@@ -95,7 +95,7 @@ class auditHandover
     }
 
     /**
-     * 
+     *
      * @param string $port
      */
     private function setAuditPort($port)
@@ -104,7 +104,7 @@ class auditHandover
     }
 
     /**
-     * 
+     *
      * @return string
      */
     private function getAuditPort()

@@ -11,7 +11,7 @@ $page_data->PageData->setRoleRequired("user");
 $select_routerboard_model_query = "SELECT board_model as routerboards, count(*) as counter FROM tbl_base_rb_routerboard where upper(active) ='Y' GROUP BY board_model ORDER BY board_model, counter;";
 /* SQL - Execute */
 try {
-    $select_routerboard_model_stmt = $page_data->serviceDAO->serviceDAO->prepare($select_routerboard_model_query);
+    $select_routerboard_model_stmt = $page_data->ServiceDAO->ServicePDO->prepare($select_routerboard_model_query);
     $select_routerboard_model_result = $select_routerboard_model_stmt->execute();
 } catch (PDOException $ex) {
     /* SQL - Error Handling */

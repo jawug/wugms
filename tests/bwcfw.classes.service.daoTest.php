@@ -4,14 +4,14 @@ declare(strict_types = 1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers serviceDAO
+ * @covers ServiceDAO
  */
-final class serviceDAOTest extends TestCase
+final class ServiceDAOTest extends TestCase
 {
 
-    public function testCreateserviceDAOInstance(): void
+    public function testCreateServiceDAOInstance(): void
     {
-        $serviceDAO = new serviceDAO();
-        $this->assertInstanceOf(serviceDAO::class, $serviceDAO);
+        $ServiceDAO = new ServiceDAO();
+        $this->assertInstanceOf(ServiceDAO::class, $ServiceDAO);
     }
 }

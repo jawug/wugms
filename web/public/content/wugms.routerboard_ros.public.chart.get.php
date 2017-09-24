@@ -11,7 +11,7 @@ $page_data->PageData->setRoleRequired("user");
 $select_routerboard_ros_query = "select CONCAT('Ver. ', os_version) as os_level, count(*) as counter from tbl_base_rb_routerboard where upper(active) ='Y' group by os_version order by (SUBSTRING_INDEX(os_version, '.', 1)+0), SUBSTRING_INDEX(SUBSTRING_INDEX(os_version, '.', -1), '.',1) +0;";
 /* SQL - Execute */
 try {
-    $select_routerboard_ros_stmt = $page_data->serviceDAO->serviceDAO->prepare($select_routerboard_ros_query);
+    $select_routerboard_ros_stmt = $page_data->ServiceDAO->ServicePDO->prepare($select_routerboard_ros_query);
     $select_routerboard_ros_result = $select_routerboard_ros_stmt->execute();
 } catch (PDOException $ex) {
     /* SQL - Error Handling */

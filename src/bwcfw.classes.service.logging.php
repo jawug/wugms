@@ -1,20 +1,20 @@
 <?php
 
 /**
- * 
+ *
  */
 class LoggingService extends entityConfiguration
 {
 
     /**
      *
-     * @var \Logger 
+     * @var \Logger
      */
     public $logger;
 
     /**
-     * 
-     * @param integer $level 
+     *
+     * @param integer $level
      * @param string $area
      * @param string $StatusStr
      * @param string $StatusCode
@@ -45,7 +45,7 @@ class LoggingService extends entityConfiguration
     /**
      * This starts up the logging sub section
      */
-    public function __construct()
+    public function __construct($area = null)
     {
         parent::__construct();
         require_once($this->getVendorPath() . '/apache/log4php/src/main/php/Logger.php');
@@ -71,79 +71,10 @@ class LoggingService extends entityConfiguration
                 )
             )
         ));
-        $this->logger = Logger::getLogger($this->getAppName());
-    }
-}
-
-class PageLoggingService extends LoggingService
-{
-
-    /**
-     *
-     * @var \voStatus  
-     */
-    public $PageActions;
-
-    /**
-     *
-     * @var \voFileRecord 
-     */
-    public $PageData;
-
-    /**
-     *
-     * @var integer The logging level to be used 
-     */
-    private $logging_level;
-
-    /**
-     * 
-     * @param integer $level This is the level of logging for pages
-     */
-    public function LogPageEntry($level)
-    {
-        switch ($level) {
-            case 1:
-                /* info */
-                $this->logger->info('[' . $this->PageData->getFileName() . '] -> ' . $this->PageActions->getStatusStr() . ' ;; Status: ' . $this->PageActions->getStatusCode());
-                break;
-            case 2:
-                /* debug */
-                $this->logger->debug('[' . $this->PageData->getFileName() . '] -> ' . $this->PageActions->getStatusStr() . ' ;; Status: ' . $this->PageActions->getStatusCode() . ' ;; Extended Status: ' . $this->PageActions->getExtendedStatusCode() . ' ;; Line: ' . $this->PageActions->getLine());
-                break;
-            case 3:
-                /* error */
-                $this->logger->error('[' . $this->PageData->getFileName() . '] -> ' . $this->PageActions->getStatusStr() . ' ;; Status: ' . $this->PageActions->getStatusCode() . ' ;; Extended Status: ' . $this->PageActions->getExtendedStatusCode() . ' ;; Line: ' . $this->PageActions->getLine());
-                break;
-            default:
-                /* debug */
-                $this->logger->debug('[' . $this->PageData->getFileName() . '] -> ' . $this->PageActions->getStatusStr() . ' ;; Status: ' . $this->PageActions->getStatusCode() . ' ;; Extended Status: ' . $this->PageActions->getExtendedStatusCode() . ' ;; Line: ' . $this->PageActions->getLine());
+        if ($area) {
+            $this->logger = Logger::getLogger($area);
+        } else {
+            $this->logger = Logger::getLogger($this->getAppName());
         }
-    }
-
-    /**
-     *
-     * @var \serviceDAO 
-     */
-    var $serviceDAO;
-
-    /**
-     *
-     * @var \audit_handover 
-     */
-    var $page_metric;
-
-    function initDAO($isEnableDAO)
-    {
-        $this->serviceDAO = new serviceDAO($isEnableDAO);
-    }
-
-    public function __construct($fn = false, $isEnableDAO = false)
-    {
-        parent::__construct();
-        $this->PageActions = new voStatus();
-        $this->PageData = new voFileRecord(1, $fn);
-        $this->initDAO($isEnableDAO);
-        $this->page_metric = new auditHandover();
     }
 }
