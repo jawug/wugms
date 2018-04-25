@@ -1,5 +1,13 @@
 <?php
 
+//use PHPMailer\PHPMailer\PHPMailer;
+//use PHPMailer\PHPMailer\Exception;
+//
+//require_once $this->getVendorPath() . 'phpmailer/phpmailer/src/Exception.php';
+//require_once $this->getVendorPath() . 'phpmailer/phpmailer/src/PHPMailer.php';
+//require_once $this->getVendorPath() . 'phpmailer/phpmailer/src/SMTP.php';
+
+
 class ServiceEmailer extends LoggingService
 {
 
@@ -72,10 +80,14 @@ class ServiceEmailer extends LoggingService
     public function __construct()
     {
         parent::__construct();
-        require_once $this->getVendorPath() . 'phpmailer/phpmailer/PHPMailerAutoload.php';
+// require_once $this->getVendorPath() . 'phpmailer/phpmailer/PHPMailerAutoload.php';
+
+
+
+
         $this->ClassActions = new voStatus();
         $this->mailer_smtp_config = new voSMTP();
-        $this->mailer = new PHPMailer(true);
+   //     $this->mailer = new PHPMailer(true);
     }
 
     /**

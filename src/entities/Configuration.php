@@ -1,6 +1,7 @@
 <?php
+namespace wugms\entities;
 
-class entityConfiguration
+class Configuration
 {
 
     private $server_base;

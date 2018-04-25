@@ -1,6 +1,9 @@
 <?php
+namespace wugms\services;
 
-class ServiceDAO extends LoggingService
+//class Logging extends wugms\entities\Configuration
+
+class DAO extends wugms\entities\Configuration
 {
 
     /**
@@ -41,6 +44,8 @@ class ServiceDAO extends LoggingService
     {
         return $this->serverdatetime;
     }
+
+    private $logger;
 
     /**
      *
@@ -99,6 +104,7 @@ class ServiceDAO extends LoggingService
         $this->daostatus = $DAO_Schema;
     }
 
+//Logger::getLogger($area);
     public function checkDAO()
     {
         $dao_test_connection_query = "SELECT now() as value from dual where 1 = :id";
@@ -156,6 +162,8 @@ class ServiceDAO extends LoggingService
     public function __construct($init = true)
     {
         parent::__construct();
+
+        $this->logger = new \wugms\services\Logging(static::class);
         $this->configDAO = new voDAO();
         $this->classStatus = new voStatus();
         if ($init) {

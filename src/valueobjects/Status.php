@@ -1,14 +1,23 @@
 <?php
+namespace wugms\valueobjects;
 
-/**
- * Status Value Object
- */
-class voStatus
+class Status
 {
 
     /**
+     *
+     */
+    function __construct()
+    {
+        $this->setStatus(true);
+        $this->setStatusCode("N/A");
+        $this->setExtendedStatusCode("N/A");
+        $this->setLine("N/A");
+    }
+
+    /**
      * This function evaluates the variable @Status and returns a simple value
-     * @return string 
+     * @return string
      */
     public function getStatusStr()
     {
@@ -16,7 +25,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @param boolean $Status This indicates if there is a problem or not
      */
     public function setStatus($Status)
@@ -25,7 +34,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @return boolean This indicates if there is a problem or not
      */
     public function getStatus()
@@ -34,7 +43,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @param string $StatusCode This provides a more detailed status of what went wrong
      */
     public function setStatusCode($StatusCode)
@@ -43,7 +52,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @return string This provides a more detailed status of what went wrong
      */
     public function getStatusCode()
@@ -52,7 +61,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @param string $ExtendedStatusCode This provides a more detailed status of what went wrong
      */
     public function setExtendedStatusCode($ExtendedStatusCode)
@@ -61,7 +70,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @return string This provides a more detailed status of what went wrong
      */
     public function getExtendedStatusCode()
@@ -70,7 +79,7 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @param string $Line This indicates the line where the error occured
      */
     public function setLine($Line)
@@ -79,22 +88,11 @@ class voStatus
     }
 
     /**
-     * 
+     *
      * @return string This indicates the line where the error occured
      */
     public function getLine()
     {
         return $this->Line;
-    }
-
-    /**
-     * 
-     */
-    function __construct()
-    {
-        $this->setStatus(true);
-        $this->setStatusCode("N/A");
-        $this->setExtendedStatusCode("N/A");
-        $this->setLine("N/A");
     }
 }

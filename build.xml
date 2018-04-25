@@ -28,11 +28,11 @@
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/> -->
 
     <target name="full-build"
-            depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
+            depends="prepare,composer,static-analysis,phpunit,phpdox,-check-failure"
             description="Performs static analysis, runs the tests, and generates project documentation"/>
     <!--
         <target name="full-build"
-                depends="prepare,phpunit,-check-failure"
+                depends="prepare,composer,phpunit,-check-failure"
                 description="Performs static analysis, runs the tests, and generates project documentation"/>
     -->
     <target name="full-build-parallel"
@@ -258,6 +258,15 @@
             description="Generate project documentation using phpDox">
         <exec executable="/usr/local/bin/phpdox" dir="${basedir}" taskname="phpdox"/>
         <property name="phpdox.done" value="true"/>
+    </target>
+
+    <target name="composer" description="Installing composer dependencies">
+        <exec executable="composer" failonerror="true">
+            <arg value="install" />
+            <arg value="--dev" />
+            <arg value="--prefer-dist" />
+            <arg value="--no-progress" />
+        </exec>
     </target>
 
     <target name="-check-failure">

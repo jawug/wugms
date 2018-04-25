@@ -1,9 +1,7 @@
 <?php
+namespace wugms\services;
 
-/**
- *
- */
-class LoggingService extends entityConfiguration
+class Logging extends wugms\entities\Configuration
 {
 
     /**
@@ -11,36 +9,6 @@ class LoggingService extends entityConfiguration
      * @var \Logger
      */
     public $logger;
-
-    /**
-     *
-     * @param integer $level
-     * @param string $area
-     * @param string $StatusStr
-     * @param string $StatusCode
-     * @param string $ExtendedStatusCode
-     * @param integer $line
-     */
-    public function LogBasicEntry($level = 1, $area = '', $StatusStr = '', $StatusCode = '', $ExtendedStatusCode = '', $line = '')
-    {
-        switch ($level) {
-            case 1:
-                /* info */
-                $this->logger->info('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode);
-                break;
-            case 2:
-                /* debug */
-                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
-                break;
-            case 3:
-                /* error */
-                $this->logger->error('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
-                break;
-            default:
-                /* debug */
-                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
-        }
-    }
 
     /**
      * This starts up the logging sub section
@@ -75,6 +43,36 @@ class LoggingService extends entityConfiguration
             $this->logger = Logger::getLogger($area);
         } else {
             $this->logger = Logger::getLogger($this->getAppName());
+        }
+    }
+
+    /**
+     *
+     * @param integer $level
+     * @param string $area
+     * @param string $StatusStr
+     * @param string $StatusCode
+     * @param string $ExtendedStatusCode
+     * @param integer $line
+     */
+    public function LogBasicEntry($level = 1, $area = '', $StatusStr = '', $StatusCode = '', $ExtendedStatusCode = '', $line = '')
+    {
+        switch ($level) {
+            case 1:
+                /* info */
+                $this->logger->info('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode);
+                break;
+            case 2:
+                /* debug */
+                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+                break;
+            case 3:
+                /* error */
+                $this->logger->error('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+                break;
+            default:
+                /* debug */
+                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
         }
     }
 }
