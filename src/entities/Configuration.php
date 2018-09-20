@@ -20,6 +20,18 @@ class Configuration
 
     /**
      *
+     * @var type
+     */
+    private $config_path;
+
+    /**
+     *
+     * @var type
+     */
+    private $template_path;
+
+    /**
+     *
      * @var string This is the footer seen at the bottom of the pages
      */
     private $footer_copy;
@@ -73,6 +85,12 @@ class Configuration
 
     /**
      *
+     * @var type
+     */
+    private $include_path;
+
+    /**
+     *
      * @var string This is the location where uploaded files will be stored on the server
      */
     private $uploads_path;
@@ -88,6 +106,54 @@ class Configuration
      * @var string This is the location where email files will be stored on the server
      */
     private $emails_path;
+
+    /**
+     *
+     * @var type
+     */
+    private $php_min;
+
+    /**
+     *
+     * @var type
+     */
+    private $sitetitle;
+
+    /**
+     *
+     * @var type
+     */
+    private $allow_smtp;
+
+    /**
+     *
+     * @var type
+     */
+    private $site_abstract;
+
+    /**
+     *
+     * @var type
+     */
+    private $site_description;
+
+    /**
+     *
+     * @var type
+     */
+    private $app_name;
+
+    /**
+     *
+     * @var type
+     */
+    private $php_max;
+
+    /**
+     *
+     * @var type
+     */
+    private $forms_path;
 
     /**
      *
@@ -240,11 +306,13 @@ class Configuration
     public function getServerBase()
     {
         return $this->server_base;
+//        return $server_base;
     }
 
     private function setServerBase($path)
     {
         $this->server_base = $path;
+//        $server_base = $path;
     }
 
     /**
@@ -526,7 +594,7 @@ class Configuration
 
         $this->setBaseURLExternal($json_a["SITE"]["external_address"]);
         $this->setBaseURLInternal($json_a["SITE"]["internal_address"]);
-        $this->setSiteTitle($json_a["SITE"]["site_title"]);
+        $this->setSiteTitle($json_a["SITE"]["site_name"]);
         $this->setAppName($json_a["SITE"]["app_name"]);
         $this->setAdminEmail($json_a["SITE"]["site_admin_email"]);
         $this->setSiteDescription($json_a["SITE"]["description"]);
@@ -538,7 +606,7 @@ class Configuration
     /**
      * Set secondary paths for teh application
      */
-    private function setAppPaths()
+    public function setAppPaths()
     {
         $this->setUploadsPath($this->getServerBase() . "/../data/uploads/");
         $this->setEmailsPath($this->getServerBase() . "/../data/emails/");
@@ -560,6 +628,16 @@ class Configuration
             $this->setServerBase(__DIR__);
         }
     }
+
+//    public function initConfig()
+//    {
+//        date_default_timezone_set('Africa/Johannesburg');
+//        $this->setAppBase();
+////        echo $this->server_base;
+//        $this->setAppPaths();
+//        $this->loadConfiguration();
+////        echo $this->getVendorPath();
+//    }
 
     /**
      * Main constructor function

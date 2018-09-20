@@ -1,32 +1,14 @@
 <?php
-//include_once 'bwcfw.classes.entity.configuration.php';
-//include_once 'bwcfw.classes.service.logging.php';
-//include_once 'bwcfw.classes.service.pagelogging.php';
-//
-//include_once 'bwcfw.classes.service.audit.php';
-//include_once 'bwcfw.classes.service.auditHandover.php';
-//include_once 'bwcfw.classes.service.dao.php';
-//include_once 'bwcfw.classes.service.emailer.php';
-//
-//include_once 'bwcfw.classes.service.metrics.php';
-//include_once 'bwcfw.classes.service.user.php';
-//include_once 'bwcfw.classes.service.util.php';
-//include_once 'bwcfw.classes.service.validation.php';
-//
-//include_once 'bwcfw.classes.valueobject.dao.php';
-//include_once 'bwcfw.classes.valueobject.emailer.php';
-//include_once 'bwcfw.classes.valueobject.filerecord.php';
-//include_once 'bwcfw.classes.valueobject.smtp.php';
-//include_once 'bwcfw.classes.valueobject.status.php';
-//include_once 'bwcfw.classes.valueobject.user.php';
-//include_once 'bwcfw.classes.valueobject.validation.php';
-//include_once 'bwcfw.classes.valueobject.webpage.php';
-// wugms/objects/Status
+namespace wugms;
+
+/**
+ * This is the primary autoloader for the classes
+ */
 spl_autoload_register(function ($class) {
-    $fn = str_replace('wugms', 'src', $class);
-    $full = dirname(__DIR__) . '/' . $fn . '.php';
-    if (is_readable($full)) {
-        require $full;
+    $fileNameRaw = str_replace('wugms', 'src', $class);
+    $fileName = str_replace('\\', '/', $fileNameRaw);
+    $fullFileName = dirname(__DIR__) . '/' . $fileName . '.php';
+    if (file_exists($fullFileName)) {
+        require $fullFileName;
     }
 });
-

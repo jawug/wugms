@@ -4,12 +4,13 @@ if (!isset($_SESSION)) {
 }
 $ServerArray = filter_input_array(INPUT_SERVER);
 require_once($ServerArray['DOCUMENT_ROOT'] . '/../src/bwcfw.classes.php');
-$page_data = new PageLoggingService(__FILE__, true);
+$page_data = new wugms\services\PageLogging(__FILE__, true);
 $page_data->PageData->setRoleRequired("user");
 
 
 $GetArray = filter_input_array(INPUT_GET);
-$Validation = new serviceValidation();
+$Validation = new wugms\services\Validation();
+
 
 if (!$GetArray) {
     $page_data->PageActions->setStatus(false);

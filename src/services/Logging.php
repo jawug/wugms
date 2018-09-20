@@ -1,7 +1,9 @@
 <?php
 namespace wugms\services;
 
-class Logging extends wugms\entities\Configuration
+use \Logger;
+
+class Logging extends \wugms\entities\Configuration
 {
 
     /**
@@ -10,13 +12,10 @@ class Logging extends wugms\entities\Configuration
      */
     public $logger;
 
-    /**
-     * This starts up the logging sub section
-     */
-    public function __construct($area = null)
+//    public function initLogger($class)
+    public function initLogger()
     {
-        parent::__construct();
-        require_once($this->getVendorPath() . '/apache/log4php/src/main/php/Logger.php');
+//        require_once($this->getVendorPath() . '/apache/log4php/src/main/php/Logger.php');
         Logger::configure(array(
             'rootLogger' => array(
                 'appenders' => array('default'),
@@ -39,6 +38,16 @@ class Logging extends wugms\entities\Configuration
                 )
             )
         ));
+    }
+
+    /**
+     * This starts up the logging sub section
+     */
+    public function __construct($area = null)
+    {
+        parent::__construct();
+        require_once($this->getVendorPath() . '/apache/log4php/src/main/php/Logger.php');
+        $this->initLogger();
         if ($area) {
             $this->logger = Logger::getLogger($area);
         } else {
@@ -55,24 +64,45 @@ class Logging extends wugms\entities\Configuration
      * @param string $ExtendedStatusCode
      * @param integer $line
      */
-    public function LogBasicEntry($level = 1, $area = '', $StatusStr = '', $StatusCode = '', $ExtendedStatusCode = '', $line = '')
+//    public function LogBasicEntry($level = 1, $area = '', $StatusStr = '', $StatusCode = '', $ExtendedStatusCode = '', $line = '')
+//    {
+//        switch ($level) {
+//            case 1:
+//                /* info */
+//                $this->logger->info('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode);
+//                break;
+//            case 2:
+//                /* debug */
+//                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+//                break;
+//            case 3:
+//                /* error */
+//                $this->logger->error('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+//                break;
+//            default:
+//                /* debug */
+//                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+//        }
+//    }
+
+    public function LogBasicEntry($level = 1, $msg = '', $StatusStr = '', $StatusCode = '', $ExtendedStatusCode = '', $line = '')
     {
         switch ($level) {
             case 1:
                 /* info */
-                $this->logger->info('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode);
+                $this->logger->info($msg . ' ;; ' . $StatusStr . ' ;; Status: ' . $StatusCode);
                 break;
             case 2:
                 /* debug */
-                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+                $this->logger->debug($msg . ' ;; ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
                 break;
             case 3:
                 /* error */
-                $this->logger->error('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+                $this->logger->error($msg . ' ;; ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
                 break;
             default:
                 /* debug */
-                $this->logger->debug('[' . $area . '] -> ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
+                $this->logger->debug($msg . ' ;; ' . $StatusStr . ' ;; Status: ' . $StatusCode . ' ;; Extended Status: ' . $ExtendedStatusCode . ' ;; Line: ' . $line);
         }
     }
 }

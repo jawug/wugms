@@ -1,11 +1,12 @@
 <?php
+namespace wugms\valueobjects;
 
-class voWebPage
+class WebPage
 {
 
     /**
      *
-     * @var array 
+     * @var array
      */
     /* var $APIResponse = array('status' => 0,
       'message' => 'message',
@@ -18,12 +19,12 @@ class voWebPage
 
     /**
      *
-     * @var type 
+     * @var type
      */
     var $HTTPResponseCode;
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIStatusCode()
@@ -32,7 +33,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIStatusMsg()
@@ -41,7 +42,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIData()
@@ -50,7 +51,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIResponseCode($id)
@@ -59,7 +60,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getHTTPResponseCode()
@@ -68,7 +69,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIResponse()
@@ -77,7 +78,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @param type $APIStatusCode
      */
     function setAPIStatusCode($APIStatusCode)
@@ -86,7 +87,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @param type $HTTPResponseCode
      */
     function setHTTPResponseCode($HTTPResponseCode)
@@ -95,7 +96,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @param integer $APIResponse
      */
     function setAPIResponse($APIResponse = 1)
@@ -115,7 +116,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIResponseStatus()
@@ -124,7 +125,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIResponseMessage()
@@ -143,7 +144,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      * @return type
      */
     function getAPIResponseData()
@@ -152,7 +153,7 @@ class voWebPage
     }
 
     /**
-     * 
+     *
      */
     function __construct()
     {

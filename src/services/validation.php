@@ -1,10 +1,13 @@
 <?php
+namespace wugms\services;
 
-class serviceValidation
+use Exception;
+
+class Validation
 {
 
     /**
-     * 
+     *
      * @param datetime $date This checks that the parameter supplied is a valid date
      * @return datetime
      * @throws Exception
@@ -19,8 +22,8 @@ class serviceValidation
     }
 
     /**
-     * 
-     * @param interger $value 
+     *
+     * @param interger $value
      * @return type boolean
      * @throws Exception
      */
@@ -41,7 +44,7 @@ class serviceValidation
     }
 
     /**
-     * 
+     *
      * @param string $value
      * @param integer $length
      * @return string
@@ -56,7 +59,7 @@ class serviceValidation
     }
 
     /**
-     * 
+     *
      * @param integer $number
      * @param integer $min
      * @param integer $max
@@ -74,7 +77,7 @@ class serviceValidation
 
     /**
      * This function checks to see if $startdate is greater $enddate and if that is the case then fails
-     * 
+     *
      * @param datetime $startdate
      * @param datetime $enddate
      * @return boolean
@@ -89,7 +92,7 @@ class serviceValidation
     }
 
     /**
-     * 
+     *
      * @param string $value
      * @param string $regex
      * @return type
@@ -113,7 +116,7 @@ class serviceValidation
     }
 
     /**
-     * 
+     *
      * @param string $first
      * @param string $second
      * @return boolean
@@ -128,7 +131,7 @@ class serviceValidation
     }
 
     /**
-     * 
+     *
      * @param string $first
      * @param string $second
      * @return boolean
@@ -143,7 +146,7 @@ class serviceValidation
     }
 
     /**
-     * 
+     *
      * @param string $email
      * @return type
      * @throws Exception
@@ -158,12 +161,12 @@ class serviceValidation
 
     /**
      *
-     * @var \voValidation 
+     * @var \voValidation
      */
     var $expressions;
 
     function __construct()
     {
-        $this->expressions = new voValidation();
+        $this->expressions = new \wugms\valueobjects\Validation();
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace wugms\services;
 
-class PageLoggingService extends wugms\services\PageLoggingService
+class PageLogging extends Logging
 {
 
     /**
@@ -20,7 +20,7 @@ class PageLoggingService extends wugms\services\PageLoggingService
      *
      * @var integer The logging level to be used
      */
- //  private $logging_level;
+    //  private $logging_level;
 
     /**
      *
@@ -37,10 +37,10 @@ class PageLoggingService extends wugms\services\PageLoggingService
     public function __construct($fn = false, $isEnableDAO = false)
     {
         parent::__construct();
-        $this->PageActions = new voStatus();
-        $this->PageData = new voFileRecord($fn);
+        $this->PageActions = new \wugms\valueobjects\Status();
+        $this->PageData = new \wugms\valueobjects\FileRecord($fn);
         $this->initDAO($isEnableDAO);
-        $this->page_metric = new AuditHandOver();
+        $this->page_metric = new \wugms\services\AuditHandOver();
     }
 
     /**
@@ -70,6 +70,6 @@ class PageLoggingService extends wugms\services\PageLoggingService
 
     public function initDAO($isEnableDAO)
     {
-        $this->ServiceDAO = new ServiceDAO($isEnableDAO);
+        $this->ServiceDAO = new \wugms\services\DAO($isEnableDAO);
     }
 }

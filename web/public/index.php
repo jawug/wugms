@@ -4,11 +4,11 @@ if (!isset($_SESSION)) {
 }
 $ServerArray = filter_input_array(INPUT_SERVER);
 require_once($ServerArray['DOCUMENT_ROOT'] . '/../src/bwcfw.classes.php');
-$page_data = new PageLoggingService(__FILE__, false);
+$page_data = new wugms\services\PageLogging(__FILE__, true);
 $page_data->PageData->setRoleRequired("user");
 
 $GetArray = filter_input_array(INPUT_GET);
-$Validation = new serviceValidation();
+$Validation = new wugms\services\Validation();
 
 
 if (!$GetArray) {
@@ -24,15 +24,13 @@ if ($page_data->PageActions->getStatus()) {
             $page_data->PageActions->setStatusCode($e->getMessage());
             $page_data->PageActions->setExtendedStatusCode("Sub function located in " . $e->getFile());
             $page_data->PageActions->setLine($e->getLine());
-            $page_data->LogEntry(3);
+            $page_data->LogPageEntry(3);
         }
     } else {
         $page_data->PageActions->setStatus(false);
         $page_data->PageActions->setStatusCode("Missing 'page' Parameter");
     }
 }
-
-
 
 if ($page_data->PageActions->getStatus()) {
 
@@ -66,12 +64,10 @@ if ($page_data->PageActions->getStatus()) {
 }
 
 #Header section
-include 'header_section.php';
+include '../header_section.php';
 #Menu
 include '../menu_main.php';
 #Main
 include $page_name . '.php';
 #footer
 include 'footer_section.php';
-
-?>

@@ -1,10 +1,20 @@
 <?php
 namespace wugms\services;
 
-//class Logging extends wugms\entities\Configuration
+use \PDO;
 
-class DAO extends wugms\entities\Configuration
+class DAO extends \wugms\services\Logging
 {
+
+    public function __construct($init = true)
+    {
+        parent::__construct(__CLASS__);
+        $this->configDAO = new \wugms\valueobjects\DAOConfig();
+        $this->classStatus = new \wugms\valueobjects\Status();
+        if ($init) {
+            $this->initDAO();
+        }
+    }
 
     /**
      *
@@ -44,8 +54,7 @@ class DAO extends wugms\entities\Configuration
     {
         return $this->serverdatetime;
     }
-
-    private $logger;
+    //   private $logger;
 
     /**
      *
@@ -136,7 +145,7 @@ class DAO extends wugms\entities\Configuration
 
     /**
      *
-     * @return \voStatus
+     * @return \Status
      */
     public function initDAO()
     {
@@ -157,17 +166,5 @@ class DAO extends wugms\entities\Configuration
         $this->LogBasicEntry((($this->classStatus->getStatus()) ? 2 : 3), get_class($this->ServicePDO), $this->classStatus->getStatusStr(), $this->classStatus->getStatusCode(), $this->classStatus->getExtendedStatusCode(), $this->classStatus->getLine());
         $this->setDAOStatus($this->classStatus->getStatus());
         $this->setDAOStatusCode($this->classStatus->getStatusCode());
-    }
-
-    public function __construct($init = true)
-    {
-        parent::__construct();
-
-        $this->logger = new \wugms\services\Logging(static::class);
-        $this->configDAO = new voDAO();
-        $this->classStatus = new voStatus();
-        if ($init) {
-            $this->initDAO();
-        }
     }
 }

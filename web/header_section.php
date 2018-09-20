@@ -9,6 +9,4 @@
 
         ?>
     </head>
-    <body>
-        <div id="wrapper">
-
+    <body id="page-top">

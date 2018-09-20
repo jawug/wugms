@@ -1,7 +1,20 @@
 <?php
+namespace wugms\valueobjects;
 
-class voFileRecord
+class FileRecord
 {
+
+    /**
+     *
+     */
+    public function __construct($fn = false)
+    {
+        $this->PageWebStatus = new \wugms\valueobjects\WebPage();
+        $this->PageActions = new \wugms\valueobjects\Status();
+        $this->setRoleRequired("ADMIN");
+        $this->setClientIP();
+        $this->setFileRecord($fn);
+    }
 
     /**
      *
@@ -408,17 +421,5 @@ class voFileRecord
             }
             $this->packPageInfo();
         }
-    }
-
-    /**
-     *
-     */
-    public function __construct($fn = false)
-    {
-        $this->PageWebStatus = new voWebPage();
-        $this->PageActions = new voStatus();
-        $this->setRoleRequired("ADMIN");
-        $this->setClientIP();
-        $this->setFileRecord($fn);
     }
 }

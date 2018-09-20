@@ -1,4 +1,5 @@
 <?php
+namespace wugms\services;
 
 class AuditHandOver
 {
@@ -122,7 +123,7 @@ class AuditHandOver
 
     public function __construct()
     {
-        $this->configuration = new entityConfiguration();
+        $this->configuration = new \wugms\entities\Configuration();
         $this->loadConfig();
     }
 }

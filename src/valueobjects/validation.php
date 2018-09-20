@@ -1,6 +1,7 @@
 <?php
+namespace wugms\valueobjects;
 
-class voValidation
+class Validation
 {
 
     private $RegexUserName = 'ddddd';
@@ -10,9 +11,10 @@ class voValidation
     private $RegexHexColourFormat = '/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/';
     private $RegexGenericName = '/^.{10,50}$/i';
     private $RegexGenericDescription = '/^.{10,250}$/i';
+    private $RegexIPv4Address = '/^([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])\.([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])\.([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])\.([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])$/i';
 
     /**
-     * 
+     *
      * @return String Regex
      */
     function getRegexUserName()
@@ -21,7 +23,7 @@ class voValidation
     }
 
     /**
-     * 
+     *
      * @return String Regex
      */
     function getRegexPassword()
@@ -30,7 +32,7 @@ class voValidation
     }
 
     /**
-     * 
+     *
      * @return String Regex
      */
     function getRegexDateFormat()
@@ -39,7 +41,7 @@ class voValidation
     }
 
     /**
-     * 
+     *
      * @return String Returns the generic name regex of '/^[A-Za-z0-9()\s]+$/i'
      */
     function getRegexDefaultNameFormat()
@@ -48,7 +50,7 @@ class voValidation
     }
 
     /**
-     * 
+     *
      * @return String Returns the generic HEX colour checker '/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
      */
     function getRegexHexColourFormat()
@@ -57,7 +59,7 @@ class voValidation
     }
 
     /**
-     * 
+     *
      * @return String Returns the expression for check the Ticket Header '/^.{10,100}$/i'
      */
     function getRegexGenericName()
@@ -66,11 +68,20 @@ class voValidation
     }
 
     /**
-     * 
+     *
      * @return String Returns the expression to check the ticket Description '/^.{10,4000}$/i'
      */
     function getRegexGenericDescription()
     {
         return $this->RegexGenericDescription;
+    }
+
+    /**
+     *
+     * @return String Returns the expression to check for valid IPv4 address
+     */
+    function getRegexIPv4Address()
+    {
+        return $this->RegexIPv4Address;
     }
 }
