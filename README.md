@@ -1,4 +1,4 @@
-## bwcfw
+## WUGMS
 
-"Because We Can FrameWork"
+"Wireless User Group Management System"
 
