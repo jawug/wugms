@@ -11,6 +11,7 @@ $page_data->PageData->setRoleRequired("user");
 $GetArray = filter_input_array(INPUT_GET);
 $Validation = new wugms\services\Validation();
 
+$returnDataOnly = false;
 
 if (!$GetArray) {
     $page_data->PageActions->setStatus(false);
@@ -35,6 +36,12 @@ if ($page_data->PageActions->getStatus()) {
     } else {
         $page_data->PageActions->setStatus(false);
         $page_data->PageActions->setStatusCode("Missing 'param' Parameter");
+    }
+}
+
+if ($page_data->PageActions->getStatus()) {
+    if (array_key_exists('dataonly', $GetArray)) {
+        $returnDataOnly = true;
     }
 }
 
@@ -87,7 +94,10 @@ $page_data->page_metric->page_metric($ServerArray, $_SESSION, $page_data->PageAc
 /* Deliver results */
 header('HTTP/1.1 ' . $page_data->PageData->PageWebStatus->getAPIResponseStatus() . ' ' . $page_data->PageData->PageWebStatus->getHTTPResponseCode());
 header('Content-Type: application/json; charset=utf-8');
-$json_response = json_encode($page_data->PageData->PageWebStatus->getAPIResponse(), JSON_NUMERIC_CHECK);
+if ($returnDataOnly) {
+    $json_response = json_encode($page_data->PageData->PageWebStatus->getAPIResponseData(), JSON_NUMERIC_CHECK);
+} else {
+    $json_response = json_encode($page_data->PageData->PageWebStatus->getAPIResponse(), JSON_NUMERIC_CHECK);
+}
+//var_dump($page_data->PageData->PageWebStatus->getAPIResponseData());
 echo $json_response;
-
-?>

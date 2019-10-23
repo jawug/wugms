@@ -1,4 +1,5 @@
 <?php
+
 namespace wugms\services;
 
 use \PDO;
@@ -113,7 +114,7 @@ class DAO extends \wugms\services\Logging
         $this->daostatus = $DAO_Schema;
     }
 
-//Logger::getLogger($area);
+    //Logger::getLogger($area);
     public function checkDAO()
     {
         $dao_test_connection_query = "SELECT now() as value from dual where 1 = :id";

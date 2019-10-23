@@ -1,11 +1,10 @@
 {
+    "name": "wugms",
+    "description": "wugms website",
     "authors": [{
             "name": "ThatOneNeji",
             "email": "dev.duncane@gmail.com",
             "homepage": "https://wugms.bwcsystem.net",
-            "role": "Developer"
-        }, {
-            "name": "Mercenary",
             "role": "Developer"
         },
         {
@@ -15,6 +14,17 @@
     ],
     "require": {
         "apache/log4php": "^2.3.0",
-        "phpmailer/phpmailer": "^6.0.7"
+        "phpmailer/phpmailer": "^6.1.1",
+        "select2/select2": "^4.0",
+        "moment/moment": "^2.24",
+        "wenzhixin/bootstrap-table": "^1.14",
+        "twitter/bootstrap": "^4.3",
+        "monolog/monolog": "^2.0",
+        "fortawesome/font-awesome": "^5.11",
+        "eonasdan/bootstrap-datetimepicker": "^4.17"
+    },
+    "require-dev": {
+        "theseer/phpdox": "^0.12.0",
+        "phploc/phploc": "^5.0"
     }
 }

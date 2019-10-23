@@ -1,4 +1,5 @@
 <?php
+
 namespace wugms\services;
 
 class PageLogging extends Logging

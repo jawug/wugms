@@ -1,4 +1,5 @@
 <?php
+
 namespace wugms\valueobjects;
 
 class FileRecord
@@ -349,12 +350,14 @@ class FileRecord
 
     private function packPageInfo()
     {
-        $this->pageinfoarray = array("section" => $this->getSection(),
+        $this->pageinfoarray = array(
+            "section" => $this->getSection(),
             "area" => $this->getArea(),
             "level" => $this->getLevel(),
             "type" => $this->getType(),
             "action" => $this->getAction(),
-            "pagename" => $this->getFileName());
+            "pagename" => $this->getFileName()
+        );
     }
 
     /**

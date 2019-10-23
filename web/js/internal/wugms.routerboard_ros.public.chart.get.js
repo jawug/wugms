@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
     var options = {
         chart: {
             renderTo: 'chart_routerboard_ros',
@@ -10,7 +10,7 @@ $(function () {
             text: 'Routerboards by ROS'
         },
         tooltip: {
-            formatter: function () {
+            formatter: function() {
                 return '<b>' + this.point.name + '</b>: ' + this.point.y + ' unit(s) ';
             }
         },
@@ -25,7 +25,7 @@ $(function () {
                     enabled: true,
                     color: '#000000',
                     connectorColor: '#000000',
-                    formatter: function () {
+                    formatter: function() {
                         return '<b>' + this.point.name + '</b>: ';
                     }
                 }
@@ -34,20 +34,18 @@ $(function () {
                 cursor: 'pointer',
                 point: {
                     events: {
-                        click: function () {
-                            $('#cnd_table').bootstrapTable('refresh', {url: '/public/content/wugms.routerboard_details.public.table.get.php?param=' + this.name});
+                        click: function() {
+                            $('#cnd_table').bootstrapTable('refresh', { url: '/public/content/wugms.routerboard_details.public.table.get.php?param=' + this.name + '&dataonly=true' });
                         }
                     }
                 }
             }
         },
         series: [{
-                type: 'pie',
-                name: 'Routerboards by ROS',
-                data: [
-                ]
-            }
-        ]
+            type: 'pie',
+            name: 'Routerboards by ROS',
+            data: []
+        }]
     };
 
     $.ajaxSetup({
@@ -58,14 +56,14 @@ $(function () {
     $.ajax({
         url: "/public/content/wugms.routerboard_ros.public.chart.get.php",
         dataType: 'json',
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (textStatus === "success") {
                 /* Add the series data */
                 options.series[0].data = data.data;
                 chart = new Highcharts.Chart(options);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function(jqXHR, textStatus, errorThrown) {
             console.log("error");
             console.log("jqXHR: " + jqXHR);
             console.log("textStatus: " + textStatus);

@@ -1,7 +1,7 @@
 <div class="pagetitle" id="page_cnd"> </div>
 <div id="wrapper">
     <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
+ <!--    <ul class="sidebar navbar-nav">
         <li class="nav-item">
             <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -36,7 +36,7 @@
                 <span>About Us</span></a>
         </li>
     </ul>
-
+ -->
     <div id="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumbs-->

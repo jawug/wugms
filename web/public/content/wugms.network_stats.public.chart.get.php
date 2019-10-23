@@ -8,7 +8,7 @@ $page_data = new wugms\services\PageLogging(__FILE__, true);
 $page_data->PageData->setRoleRequired("user");
 
 /* SQL - Query */
-$select_network_stats_qos_chart_query = "SELECT a.idate, a.flow, a.bytes FROM tbl_summary_snmp_mikrotik_queuetree_overview_60min a WHERE a.RDate >= DATE_FORMAT(now() - INTERVAL 24 HOUR, '%Y-%m-%d %H:00:00') AND a.RDate < now() ORDER BY a.idate, a.flow;";
+$select_network_stats_qos_chart_query = "SELECT a.idate, a.flow, a.bytes FROM tbl_summary_snmp_mikrotik_queuetree_overview_60min a WHERE a.RDate >= DATE_FORMAT(now() - INTERVAL 24 HOUR, '%Y-%m-%d %H:00:00') AND a.RDate < now() AND a.bytes <> 0 ORDER BY a.idate, a.flow;";
 /* SQL - Execute */
 try {
     $select_network_stats_qos_chart_stmt = $page_data->ServiceDAO->ServicePDO->prepare($select_network_stats_qos_chart_query);
@@ -37,7 +37,7 @@ if ($page_data->PageActions->getStatus()) {
             $tmp['data'] = $i;
             $rows[] = $tmp;
         }
-      //  $rows = json_encode($result, JSON_NUMERIC_CHECK);
+        //  $rows = json_encode($result, JSON_NUMERIC_CHECK);
         $page_data->PageData->PageWebStatus->setAPIResponse(1);
         $page_data->PageData->PageWebStatus->setAPIResponseData($rows);
         $page_data->PageActions->setStatusCode("Data Size: " . count($rows) . " row(s)");

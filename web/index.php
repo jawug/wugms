@@ -16,4 +16,3 @@ include 'menu_main.php';
 include 'main_section.php';
 #footer
 include 'footer_section.php';
-

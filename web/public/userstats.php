@@ -1,7 +1,7 @@
 <div class="pagetitle" id="home"> </div>
 <div id="wrapper">
     <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
+<!--     <ul class="sidebar navbar-nav">
         <li class="nav-item">
             <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -35,7 +35,7 @@
                 <i class="fa fa-play fa-fw"></i>
                 <span>About Us</span></a>
         </li>
-    </ul>
+    </ul> -->
 
     <div id="content-wrapper">
         <div class="container-fluid">
