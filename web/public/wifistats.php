@@ -3,7 +3,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-<!--     <ul class="sidebar navbar-nav">
+    <!--     <ul class="sidebar navbar-nav">
         <li class="nav-item">
             <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -49,18 +49,43 @@
                 <li class="breadcrumb-item active">Wifi Stats</li>
             </ol>
 
+
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div style="vertical-align: middle"><b> Coming Soon</b></div>
+                    <div class="panel panel-default marginRow">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div id="chart_wifi_frequency2" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div id="chart_wifi_frequency5" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                            </div>
                         </div>
-                        <div class="panel-body">
+                        <hr>
+                        <div class="row marginRow">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginRow">
+                                <table id='cnd_table' data-url="/public/content/wugms.wifi_details.public.table.get.php" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-search="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="sitename" data-sortable="true">Sitename</th>
+                                            <th data-field="owner" data-sortable="true">Equipment Owner</th>
+                                            <th data-field="band" data-sortable="true">Band</th>
+                                            <th data-field="frequency" data-sortable="true">Frequency</th>
+                                            <th data-field="channel_width" data-sortable="true">Channel Width</th>
+                                            <th data-field="antenna_gain" data-sortable="true">Antenna Gain</th>
+                                            <th data-field="country" data-sortable="true">Country</th>
+                                            <th data-field="ssid" data-sortable="true">SSID</th>
+                                            <th data-field="wireless_protocol" data-sortable="true">Protocol</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+
+
         </div>
         <!-- /.container-fluid -->
     </div>
@@ -71,5 +96,3 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
-
